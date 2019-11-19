@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="阿兵的小窝" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="以下答案仅供参考，如有错误，请联系李兵~">
+<meta name="keywords" content="java作业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java(六章)-方法的使用">
+<meta property="og:url" content="https:&#x2F;&#x2F;libingqaq.github.io&#x2F;2019&#x2F;11&#x2F;19&#x2F;java-%E5%85%AD%E7%AB%A0-%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8&#x2F;index.html">
+<meta property="og:site_name" content="阿兵的小窝">
+<meta property="og:description" content="以下答案仅供参考，如有错误，请联系李兵~">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-19T03:00:09.123Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://libingqaq.github.io/2019/11/19/java-%E5%85%AD%E7%AB%A0-%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>java(六章)-方法的使用 | 阿兵的小窝</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿兵的小窝</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">欢迎来到阿兵的小窝，阿兵正在努力学习！！！</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://libingQAQ.github.io/2019/11/19/java-%E5%85%AD%E7%AB%A0-%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="li bing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿兵的小窝">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java(六章)-方法的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-11-19 10:31:55 / 修改时间：11:00:09" itemprop="dateCreated datePublished" datetime="2019-11-19T10:31:55+08:00">2019-11-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>以下答案仅供参考，如有错误，请联系李兵~</p>
+<a id="more"></a>
+<h2 id="第一节：如何定义方法"><a href="#第一节：如何定义方法" class="headerlink" title="第一节：如何定义方法"></a>第一节：如何定义方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package step1;</span><br><span class="line"></span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">	/********** Begin **********/</span><br><span class="line"></span><br><span class="line">    //定义一个方法，用来和老师打招呼</span><br><span class="line">	public void hello()&#123;</span><br><span class="line">		System.out.println(&quot;hello teacher!&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	/********** End **********/	</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">		/********** Begin **********/	</span><br><span class="line">		</span><br><span class="line">        //调用方法 </span><br><span class="line">		HelloWorld a = new HelloWorld();</span><br><span class="line">		a.hello();</span><br><span class="line"></span><br><span class="line">		/********** End **********/</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="第二节：掌握无参有返回值方法的调用"><a href="#第二节：掌握无参有返回值方法的调用" class="headerlink" title="第二节：掌握无参有返回值方法的调用"></a>第二节：掌握无参有返回值方法的调用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package setp7;</span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		/********** Begin **********/</span><br><span class="line"></span><br><span class="line">		HelloWorld a = new HelloWorld();</span><br><span class="line">        // 调用calcAvg()方法，并将返回值保存在变量avg中</span><br><span class="line">        double avg = a.calcAvg();</span><br><span class="line">		/********** End **********/</span><br><span class="line">    	System.out.println(&quot;平均成绩为：&quot; + avg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 定义一个返回值为double类型的方法</span><br><span class="line">	/********** Begin **********/</span><br><span class="line">    public  double  calcAvg() &#123;</span><br><span class="line">        double java = 92.5;</span><br><span class="line">        double php = 83.0;</span><br><span class="line">        double avg = (java + php) / 2; // 计算平均值</span><br><span class="line">        // 使用return返回值</span><br><span class="line">		return avg;</span><br><span class="line">	/********** End **********/</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="第三节"><a href="#第三节" class="headerlink" title="第三节"></a>第三节</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package setp9;</span><br><span class="line"></span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		Scanner sc = new Scanner(System.in);</span><br><span class="line">		int score1 = sc.nextInt(); //第一门成绩</span><br><span class="line">		int score2 = sc.nextInt(); //第二门成绩</span><br><span class="line">		/********** Begin **********/</span><br><span class="line">        // 调用方法，传入两门课程的成绩</span><br><span class="line">		HelloWorld a = new HelloWorld();</span><br><span class="line">        System.out.println(&quot;平均分：&quot; + a.calcAvg(score1,score2) );</span><br><span class="line">		/********** End **********/</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 功能：计算两门课程考试成绩的平均分并输出平均分</span><br><span class="line">     * 定义一个包含两个参数的方法，用来传入两门课程的成绩</span><br><span class="line">     */</span><br><span class="line">	/********** Begin **********/</span><br><span class="line">	public int calcAvg(int a, int b)&#123;</span><br><span class="line">		return (int)((a + b) / 2);</span><br><span class="line">	&#125;</span><br><span class="line">	/********** End **********/</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="第四节"><a href="#第四节" class="headerlink" title="第四节"></a>第四节</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package step3;</span><br><span class="line"></span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		Scanner sc = new Scanner(System.in);</span><br><span class="line">		int i = sc.nextInt();   //获取第一个输入的整数</span><br><span class="line">        int j = sc.nextInt();	//获取第二个输入的整数</span><br><span class="line">		</span><br><span class="line">		/********** Begin **********/</span><br><span class="line">		//在这里调用方法获取返回值</span><br><span class="line"></span><br><span class="line">        System.out.println( i+&quot;和&quot;+j+&quot;比较，最大值是：&quot;  +   getMax(i,j) );</span><br><span class="line">		/********** End **********/</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	/*在这里创建getMax方法，以两个整数作为参数，返回两个整数中较大的值*/</span><br><span class="line">    </span><br><span class="line">	/********** Begin **********/</span><br><span class="line">	public  static int getMax(int a,int b)&#123;</span><br><span class="line">		return a &gt; b ? a : b;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    /********** End **********/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>##第五节</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package setp10;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">     </span><br><span class="line">        int[] scores=&#123;79,52,98,81&#125;;</span><br><span class="line">		/********** Begin **********/</span><br><span class="line">        //调用方法，传入成绩数组，并获取成绩的个数</span><br><span class="line">        int count= sort(scores);</span><br><span class="line">		/********** End **********/</span><br><span class="line">        System.out.println(&quot;共有&quot;+count+&quot;个成绩信息！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     * 功能：将考试成绩排序并输出，返回成绩的个数</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">	/********** Begin **********/	</span><br><span class="line">    public  static int  sort(int[] a)&#123;</span><br><span class="line">       // 数组从小到大排序处理</span><br><span class="line">		for(int i = 0 ; i &lt; a.length; i++)&#123;</span><br><span class="line">			for(int j = 0; j &lt; a.length - 1; j++)&#123;</span><br><span class="line">				if(a[j] &gt; a[j + 1])&#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + 1];</span><br><span class="line">					a[j + 1] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">       // 打印出数组</span><br><span class="line">		System.out.println(Arrays.toString(a));</span><br><span class="line">       //返回数组中元素的个数</span><br><span class="line">		return a.length;</span><br><span class="line">    &#125;</span><br><span class="line">	/********** End **********/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="第六节"><a href="#第六节" class="headerlink" title="第六节"></a>第六节</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package setp15;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author tangzhiqiang</span><br><span class="line"> * @date 2018-04-25 22:31</span><br><span class="line"> */</span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">		/********** Begin **********/</span><br><span class="line">		HelloWorld a=new HelloWorld();</span><br><span class="line">        // 调用无参的方法</span><br><span class="line">		a.print();</span><br><span class="line">        // 调用带有一个字符串参数的方法	</span><br><span class="line">		a.print(&quot;educoder&quot;);</span><br><span class="line">        // 调用带有一个整型参数的方法</span><br><span class="line">        a.print(666);</span><br><span class="line">        /********** End **********/</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /********** Begin **********/</span><br><span class="line">    // 无参print方法的定义</span><br><span class="line">	public  void print()&#123;</span><br><span class="line">		System.out.println(&quot;无参的print方法&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    // 字符串print方法的定义</span><br><span class="line">	public  void print(String str)&#123;</span><br><span class="line">		System.out.println(&quot;带有一个字符串参数的print方法，参数值为：&quot;+ str);</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    // 整型print方法的定义</span><br><span class="line"></span><br><span class="line">	public  void print(int a)&#123;</span><br><span class="line">		System.out.println(&quot;带有一个整型参数的print方法，参数值为：&quot;+a);</span><br><span class="line">	&#125;</span><br><span class="line">    /********** End **********/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第八节"><a href="#第八节" class="headerlink" title="第八节"></a>第八节</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">package setp17;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">	</span><br><span class="line">    /********** Begin **********/</span><br><span class="line">    /**</span><br><span class="line">     * 第一题：定义一个方法 接收两个整数类型的参数 a和b，返回两个数的和  返回值类型为int 方法名为：getSum</span><br><span class="line">     */</span><br><span class="line">	public static int getSum(int a,int b)&#123;</span><br><span class="line">		return a + b;</span><br><span class="line">	&#125;</span><br><span class="line">    /**</span><br><span class="line">     * 第二题： 定义一个方法 接收三个double类型参数a，b，c， 返回这三个数的平均值 返回值类型为double 方法名为：getAvg</span><br><span class="line">     */</span><br><span class="line">    public static double getAvg(double a, double b, double c)&#123;</span><br><span class="line">		return (a + b + c) / 3;</span><br><span class="line">	&#125;</span><br><span class="line">    /**</span><br><span class="line">     * 第三题： 定义一个方法 接收两个参数 a 和b 打印a行 b列的一个矩形  不需要返回值   方法名为：printRect</span><br><span class="line">     */</span><br><span class="line">	public static void  printRect(int a,int b)&#123;</span><br><span class="line">		for(int i = 0; i &lt; a; i++)&#123;</span><br><span class="line">			for(int j = 0; j &lt; b; j++)&#123;</span><br><span class="line">				System.out.print(&quot;*&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(&quot;&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 第四题：定以一个方法，接收整形数组 为参数  对这个数组进行升序排序  最后输出该数组 不需要返回值 方法名为 sortArr  </span><br><span class="line">	 */</span><br><span class="line">	public static   void sortArr(int [] a)&#123;</span><br><span class="line">		for(int i = 0; i &lt; a.length; i++)&#123;</span><br><span class="line">			for(int j = 0; j &lt; a.length - 1; j++)&#123;</span><br><span class="line">				if(a[j] &gt; a[j + 1])&#123;</span><br><span class="line">					int temp = a[j];</span><br><span class="line">					a[j] = a[j + 1];</span><br><span class="line">					a[j + 1] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int c:a)&#123;</span><br><span class="line">			System.out.println(c);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    /**</span><br><span class="line">     *  第五题</span><br><span class="line">     * 你只需要实现for 循环括号的内容就可 ，打印语句系统已经给你完成 </span><br><span class="line">     */</span><br><span class="line">    public static void Print99() &#123;</span><br><span class="line">        for (int i = 1; i &lt;= 9; i++) &#123;</span><br><span class="line">            for(int j = 1; j &lt;= i; j++) &#123;</span><br><span class="line">                System.out.print(j + &quot; * &quot; + i + &quot; = &quot; + i * j + &quot;\t&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /********** End **********/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java%E4%BD%9C%E4%B8%9A/" rel="tag"># java作业</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/17/%E5%B8%B8%E7%94%A8Markd%E5%91%BD%E4%BB%A4/" rel="next" title="Markdown命令">
+                  <i class="fa fa-chevron-left"></i> Markdown命令
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/19/java-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%B0%81%E8%A3%85-%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/" rel="prev" title="java(第七章)-封装,继承和多态">
+                  java(第七章)-封装,继承和多态 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一节：如何定义方法"><span class="nav-number">1.</span> <span class="nav-text">第一节：如何定义方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二节：掌握无参有返回值方法的调用"><span class="nav-number">2.</span> <span class="nav-text">第二节：掌握无参有返回值方法的调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三节"><span class="nav-number">3.</span> <span class="nav-text">第三节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四节"><span class="nav-number">4.</span> <span class="nav-text">第四节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六节"><span class="nav-number">5.</span> <span class="nav-text">第六节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八节"><span class="nav-number">6.</span> <span class="nav-text">第八节</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="li bing"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">li bing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/libingQAQ" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;libingQAQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">li bing</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
