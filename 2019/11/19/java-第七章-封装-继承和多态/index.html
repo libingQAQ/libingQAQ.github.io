@@ -39,8 +39,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     sidebarPadding: 40
   };
@@ -49,12 +49,12 @@
   <meta name="description" content="以下答案仅供参考，如有错误，请联系李兵~">
 <meta name="keywords" content="java作业">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java(第七章)-封装,继承和多态">
+<meta property="og:title" content="java面向对象(第七章)-封装,继承和多态">
 <meta property="og:url" content="https:&#x2F;&#x2F;libingqaq.github.io&#x2F;2019&#x2F;11&#x2F;19&#x2F;java-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%B0%81%E8%A3%85-%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81&#x2F;index.html">
 <meta property="og:site_name" content="阿兵的小窝">
 <meta property="og:description" content="以下答案仅供参考，如有错误，请联系李兵~">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-19T03:26:33.599Z">
+<meta property="og:updated_time" content="2019-11-19T03:39:50.558Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://libingqaq.github.io/2019/11/19/java-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%B0%81%E8%A3%85-%E7%BB%A7%E6%89%BF%E5%92%8C%E5%A4%9A%E6%80%81/">
@@ -71,7 +71,7 @@
   };
 </script>
 
-  <title>java(第七章)-封装,继承和多态 | 阿兵的小窝</title>
+  <title>java面向对象(第七章)-封装,继承和多态 | 阿兵的小窝</title>
   
 
 
@@ -150,9 +150,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -189,7 +214,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          java(第七章)-封装,继承和多态
+          java面向对象(第七章)-封装,继承和多态
         </h1>
 
         <div class="post-meta">
@@ -200,10 +225,31 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-19 11:03:37 / 修改时间：11:26:33" itemprop="dateCreated datePublished" datetime="2019-11-19T11:03:37+08:00">2019-11-19</time>
+              <time title="创建时间：2019-11-19 11:03:37 / 修改时间：11:39:50" itemprop="dateCreated datePublished" datetime="2019-11-19T11:03:37+08:00">2019-11-19</time>
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -214,7 +260,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>以下答案仅供参考，如有错误，请联系李兵~   <a id="more"></a></p>
+        <p>以下答案仅供参考，如有错误，请联系李兵~<br> <a id="more"></a></p>
 <h2 id="第一节"><a href="#第一节" class="headerlink" title="第一节"></a>第一节</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">package case1;</span><br><span class="line"></span><br><span class="line">public class TestPersonDemo &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		/********* begin *********/</span><br><span class="line">		// 声明并实例化一Person对象p</span><br><span class="line">		Person p = new Person();</span><br><span class="line">		// 给p中的属性赋值</span><br><span class="line">		p.setName(&quot;张三&quot;);</span><br><span class="line">		p.setAge(18);</span><br><span class="line">		// 调用Person类中的talk()方法</span><br><span class="line">		p.talk();</span><br><span class="line">		/********* end *********</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 在这里定义Person类</span><br><span class="line">class Person &#123;</span><br><span class="line">	/********* begin *********/</span><br><span class="line">	private String name;</span><br><span class="line">	private int age ;</span><br><span class="line"></span><br><span class="line">	public void setAge(int age)&#123;</span><br><span class="line">		this.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setName(String name)&#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	public  void talk()&#123;</span><br><span class="line">		System.out.println(&quot;我是：&quot; + name + &quot;，今年：&quot; + age + &quot;岁&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	/********* end *********/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="第二节"><a href="#第二节" class="headerlink" title="第二节"></a>第二节</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">package case2;</span><br><span class="line"></span><br><span class="line">public class extendsTest &#123;</span><br><span class="line">	public static void main(String args[]) &#123;</span><br><span class="line">		// 实例化一个Cat对象，设置属性name和age，调用voice()和eat()方法，再打印出名字和年龄信息</span><br><span class="line">		/********* begin *********/</span><br><span class="line">		Cat cat = new Cat(&quot;大花猫&quot;,6);</span><br><span class="line">		cat.voice();</span><br><span class="line">		cat.eat();</span><br><span class="line">		System.out.println(cat.getName() +  cat.getAge() + &quot;岁&quot;);</span><br><span class="line">		/********* end *********/</span><br><span class="line"></span><br><span class="line">		// 实例化一个Dog对象，设置属性name和age，调用voice()和eat()方法，再打印出名字和年龄信息</span><br><span class="line">		/********* begin *********/</span><br><span class="line">		Dog dog = new Dog(&quot;大黑狗&quot;,8);</span><br><span class="line">		dog.voice();</span><br><span class="line">		dog.eat();</span><br><span class="line">		System.out.println(dog.getName() +  dog.getAge() + &quot;岁&quot;);</span><br><span class="line">		/********* end *********/</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Animal &#123;</span><br><span class="line">	/********* begin *********/</span><br><span class="line">	private String name;</span><br><span class="line">	private int age;</span><br><span class="line">	public void  setName(String name)&#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	public Animal(String name ,int age)&#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">		this.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	public void  setage(int age)&#123;</span><br><span class="line">		this.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	public int getAge()&#123;</span><br><span class="line">		return this.age;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getName()&#123;</span><br><span class="line">		return this.name;</span><br><span class="line">	&#125;</span><br><span class="line">	public void voice()&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	public void eat()&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	/********* end *********/</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Cat extends Animal &#123;</span><br><span class="line">	// 定义Cat类的voice()和eat()方法</span><br><span class="line">	/********* begin *********/</span><br><span class="line">	public void voice()&#123;</span><br><span class="line">		System.out.println(getName() + &quot;喵喵叫&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	public void eat()&#123;</span><br><span class="line">		System.out.println(getName() + &quot;吃鱼&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	public Cat(String name ,int age)&#123;</span><br><span class="line">		super(name,age);</span><br><span class="line">	&#125;</span><br><span class="line">	/********* end *********/</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Dog extends Animal &#123;</span><br><span class="line">	// 定义Dog类的voice()和eat()方法</span><br><span class="line">	/********* begin *********/</span><br><span class="line">	public void voice()&#123;</span><br><span class="line">		System.out.println(getName() + &quot;汪汪叫&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	public void eat()&#123;</span><br><span class="line">		System.out.println(getName() + &quot;吃骨头&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	public Dog(String name ,int age)&#123;</span><br><span class="line">		super(name,age);</span><br><span class="line">	&#125;</span><br><span class="line">	/********* end *********/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -240,7 +286,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/java%E4%BD%9C%E4%B8%9A/" rel="tag"># java作业</a>
+              <a href="/tags/java%E4%BD%9C%E4%B8%9A/" rel="tag"><i class="fa fa-tag"></i> java作业</a>
           </div>
 
         
@@ -255,6 +301,9 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/19/java%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" rel="prev" title="java面向对象(第六章)-类与对象">
+                  java面向对象(第六章)-类与对象 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
@@ -309,13 +358,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">标签</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -348,20 +399,42 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2019-2019 – 
   <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">li bing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">17k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">15 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
-  </div>
-
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">全站共3.5k字</span>
+</div>
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -393,6 +466,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 
