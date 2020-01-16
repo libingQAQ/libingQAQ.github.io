@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="alternate" href="/atom.xml" title="阿兵的小窝" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="网络编程总结">
+<meta name="keywords" content="java,网络编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初学Java-网络编程">
+<meta property="og:url" content="https:&#x2F;&#x2F;libingqaq.github.io&#x2F;2019&#x2F;12&#x2F;16&#x2F;%E5%88%9D%E5%AD%A6Java-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B&#x2F;index.html">
+<meta property="og:site_name" content="阿兵的小窝">
+<meta property="og:description" content="网络编程总结">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-01-16T04:33:07.514Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://libingqaq.github.io/2019/12/16/%E5%88%9D%E5%AD%A6Java-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>初学Java-网络编程 | 阿兵的小窝</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿兵的小窝</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">欢迎来到阿兵的小窝，阿兵正在努力学习！！！</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://libingQAQ.github.io/2019/12/16/%E5%88%9D%E5%AD%A6Java-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.jpg">
+      <meta itemprop="name" content="li bing">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿兵的小窝">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          初学Java-网络编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-16 15:45:10" itemprop="dateCreated datePublished" datetime="2019-12-16T15:45:10+08:00">2019-12-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-16 12:33:07" itemprop="dateModified" datetime="2020-01-16T12:33:07+08:00">2020-01-16</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网络编程总结</p>
+<a id="more"></a>
+
+<h3 id="TCP-与-UDP-协议"><a href="#TCP-与-UDP-协议" class="headerlink" title="TCP 与 UDP 协议"></a>TCP 与 UDP 协议</h3><ul>
+<li>TCP：<br>提供面向连接的服务，在传输数据之前必须先建立连接，数据传输之后要释放连接。流模式。</li>
+<li>UDP：<br>在传输数据之前不建立连接，直接发送数据报到网络。数据报模式。<h3 id="套字节与端口"><a href="#套字节与端口" class="headerlink" title="套字节与端口"></a>套字节与端口</h3></li>
+<li>套接字：<br>当两台计算机连接起来建立一个双向的通信链路时，这个双向通信链路的每一端称之为一个套接字（Socket）。</li>
+<li>端口:<br>一台服务器上可能提供多种服务，使用 IP 地址只能唯一定位到某一台计算机，却不能准确地连接到想要连接的服务器。通常使用一个 0~65535 的整数来标识该机器上的某个服务，这个整数就是端口号（Port）。<h3 id="Java-InetAddress-类"><a href="#Java-InetAddress-类" class="headerlink" title="Java InetAddress 类"></a>Java InetAddress 类</h3>Internet 上的主机有两种方式表示地址，分别为域名和 IP 地址。java.net 包中的 InetAddress 类对象包含一个主机地址的域名和 IP 地址。 </li>
+</ul>
+<p><strong>InetAddress类的常用方法 ：</strong></p>
+<ul>
+<li>static InetAddress[] getAHByName(String host)<br>在给定主机名的情况下，根据系统上配置的名称，服务器返回其 IP 地址所组成的数组</li>
+<li>static InetAddress getByAddress(String host)<br>在给定主机名的情况下确定主机的 IP 地址</li>
+<li>String getHostAddress()<br>返回 IP 地址字符串（以文本表现形式）</li>
+<li>String getHostName()<br>返回此 IP 地址的主机名</li>
+<li>static InetAdderss getLocalHost()<br>返回本地主机</li>
+</ul>
+<h3 id="Java-TCP通信"><a href="#Java-TCP通信" class="headerlink" title="Java TCP通信"></a>Java TCP通信</h3><p>TCP 网络程序是指利用 Socket 编写的通信程序。利用 TCP 协议进行通信的两个应用程序是有主次之分的，一个是服务器程序，一个是客户端程序，两者的功能和编写方法不太一样。其中 ServerSocket 类表示 Socket 服务器端，Socket 类表示 Socket 客户端。Socket 类表示 Socket 客户端，两者之间的交互过程如下：</p>
+<ol>
+<li>服务器端创建一个 ServerSocket （服务器端套接字），调用 accept() 方法等待客户端来连接。</li>
+<li>客户端程序创建一个 Socket，请求与服务器建立连接。</li>
+<li>服务器接收客户端的连接请求，同时创建一个新的 Socket 与客户端建立连接，服务器继续等待新的请求。</li>
+</ol>
+<h4 id="ServerSocket-类"><a href="#ServerSocket-类" class="headerlink" title="ServerSocket 类"></a>ServerSocket 类</h4><p>ServerSocket 类是与 Socket 类相对应的用于表示通信双方中的服务器端，用于在服务器上开一个端口，被动的等待数据（使用accept() 方法）并建立连接进行数据交互。<br>服务器套接字一次可与一个套接字连接，如果多台客户端同时提出连接请求，服务器套接字会将请求连接的客户端存入队列中，然后从中取出一个套接字与服务器新建的套接字连接起来，若请求连接大于最大容纳数，则多出的连接请求被拒绝；默认的队列大小是50。</p>
+<p><strong>ServerSocket 类常用方法：</strong></p>
+<ul>
+<li>Server accept()：监听要连接到此套接字并接受它。 </li>
+<li>void close()：关闭此套接字。</li>
+</ul>
+<p>调用 accept() 方法会返回一个和客户端 Socket 对象相连接的 Socket 对象</p>
+<p>** 使用 ServerSocket 类创建一个使用端口 8888 的服务器端套接字，如下：**</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//在8888端口创建一个服务器端套接字</span></span><br><span class="line">        ServerSocket s_socket = <span class="keyword">new</span> ServerSocket(<span class="number">8888</span>);</span><br><span class="line">        System.out.println(<span class="string">"服务器端 Socket 套接字创建成功！"</span>);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123; </span><br><span class="line">            System.out.println(<span class="string">"等待客户端的连接请求!"</span>);</span><br><span class="line">            <span class="comment">//等待客户端的连接请求</span></span><br><span class="line">            Socket socket = s_socket.accept(); </span><br><span class="line">            <span class="comment">//阻塞式创建连接</span></span><br><span class="line">            <span class="comment">//如果没有客户端的连接请求，则 accept() 方法为空，</span></span><br><span class="line">            <span class="comment">//所以不会输出“成功建立与客户端的连接”</span></span><br><span class="line">            System.out.println(<span class="string">"成功建立与客户端的连接!"</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//从客户端接收数据</span></span><br><span class="line">            <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">       	 	in = socket.getInputStream();</span><br><span class="line">        	<span class="keyword">int</span> len = in.read(b);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//将数据发送到客户端</span></span><br><span class="line">            out = socket.getOutputStream();<span class="comment">//发送数据</span></span><br><span class="line">            out.write(<span class="string">"欢迎登陆到客户端！"</span>.getBytes());</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Socket-类"><a href="#Socket-类" class="headerlink" title="Socket 类"></a>Socket 类</h4><p>Socket 类表示通信双方中的客户端，用于呼叫远端机器上的一个端口，主动向服务器端发送数据（当连接建立后也能接收数据）</p>
+<p><strong>Socket类构造方法</strong></p>
+<ul>
+<li>Socket(InetAddress address,int port)：<br>创建一个流套接字并将其连接到指定 IP 地址的指定端口。</li>
+</ul>
+<p><strong>Socket 类常用方法：</strong></p>
+<ul>
+<li>void close()：<br>关闭此套接字。</li>
+<li>InputStream getInputStream()：<br>返回此套接字的输入流。</li>
+<li>OutputStream getOutputStream()：<br>返回此套接字的输出流。</li>
+</ul>
+<p><strong>使用Socket类创建客户端套接字，和服务器端完成简单的通信：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1.定义 Socket 对象、OutputStream 对象和一个 InputStream 对象并完成初始化</span></span><br><span class="line">        Socket socket = <span class="keyword">null</span>;</span><br><span class="line">        OutputStream out = <span class="keyword">null</span>;</span><br><span class="line">        InputStream in = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">//定义服务器端的 IP 地址和端口号</span></span><br><span class="line">        String serverIP = <span class="string">"127.0.0.1"</span>;<span class="comment">//服务器端 IP 地址</span></span><br><span class="line">        <span class="keyword">int</span> port = <span class="number">8888</span>;<span class="comment">//服务器端端口号</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//2.建立与服务器端的连接并将数据发送到服务器端</span></span><br><span class="line">            socket = <span class="keyword">new</span> Socket(serverIP, port);<span class="comment">//建立连接</span></span><br><span class="line">            out = socket.getOutputStream();<span class="comment">//发送数据</span></span><br><span class="line">            out.write(<span class="string">"我是客户端数据"</span>.getBytes());</span><br><span class="line"> </span><br><span class="line">            <span class="comment">//3.从输入流中读出服务器的反馈信息并输出到控制台</span></span><br><span class="line">            <span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">            in = socket.getInputStream();</span><br><span class="line">            <span class="keyword">int</span> len = in.read(b);</span><br><span class="line">            System.out.println(<span class="string">"服务器端的反馈为："</span> + <span class="keyword">new</span> String(b, <span class="number">0</span>, len));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//4.关闭流及 Socket 对象</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                in.close();</span><br><span class="line">                out.close();</span><br><span class="line">                socket.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Java-UDP通信"><a href="#Java-UDP通信" class="headerlink" title="Java UDP通信"></a>Java UDP通信</h3><p>虽然 UDP 协议是一种不太可靠的协议，但有时在需要较快地接收数据并且可以忍受较小错误的情况下，UDP就会表现出更大的优势。</p>
+<p><strong>使用 UDP 协议发送数据的步骤：</strong></p>
+<ul>
+<li>使用 DatagramSocket() 创建一个数据包套接字。</li>
+<li>使用 DatagramPacket() 创建要发送的数据包。</li>
+<li>使用 DatagramSocket 类的 send() 方法发送数据包。</li>
+</ul>
+<p><strong>接收 UDP 数据包的步骤：</strong></p>
+<ul>
+<li>使用 DatagramSocket 创建数据包套接字，并将其绑定到指定的端口。</li>
+<li>使用 DatagramPacket 创建字节数组来接收数据包。</li>
+<li>使用 DatagramPacket 类的 receive() 方法接收 UDP 包</li>
+</ul>
+<h4 id="DatagramPacket类"><a href="#DatagramPacket类" class="headerlink" title="DatagramPacket类"></a>DatagramPacket类</h4><p>DatagramPacket 类用来表示数据报包，数据报包用来实现无连接包投递服务。每条报文仅根据该包中包含的信息从一台机器路由到另一台机器。从一台机器发送到另一台机器的多个包可能选择不同的路由，也可能按不同的顺序到达。</p>
+<h4 id="DatagramSocket-类"><a href="#DatagramSocket-类" class="headerlink" title="DatagramSocket 类"></a>DatagramSocket 类</h4><p>DatagramSocket 类用于表示发送和接收数据报包的套接字。数据报包套接字是包投递服务的发送或接收点。每个在数据报包套接字上发送或接收的包都是单独编址和路由的。</p>
+<p><strong>UDP通信客户端/服务端：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		<span class="comment">//	1.使用DatagramSocket 指定端口 创建接收端/服务端  端口号不能相同</span></span><br><span class="line">		DatagramSocket socket = <span class="keyword">new</span> DatagramSocket(<span class="number">8888</span>); </span><br><span class="line">		<span class="comment">//  2.准备数据，接收方的地址(ip,端口)</span></span><br><span class="line">    	SocketAddress address = <span class="keyword">new</span> InetSocketAddress(<span class="string">"localhost"</span>,<span class="number">9999</span>);</span><br><span class="line">    	<span class="keyword">byte</span>[] datas = <span class="string">"发送数据****"</span>.getBytes();</span><br><span class="line">		<span class="comment">//	3.封装成DatagramPacekt包裹，需要指定目的地 </span></span><br><span class="line">		DatagramPacket packet = <span class="keyword">new</span> DatagramPacket(datas,<span class="number">0</span>,datas.length,address); </span><br><span class="line">    	<span class="comment">//  4.发送数据包</span></span><br><span class="line">    	socket.send(packet);</span><br><span class="line">    </span><br><span class="line">    	<span class="comment">//  5.准备空间接收数据包(数据包最大60K)</span></span><br><span class="line">    	<span class="keyword">byte</span>[] container = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>*<span class="number">60</span>];</span><br><span class="line">    	<span class="comment">//  6.构造 DatagramPacket，用来接收长度为 length 的数据包</span></span><br><span class="line">		DatagramPacket packet = <span class="keyword">new</span> DatagramPacket(container,container.length);</span><br><span class="line">		<span class="comment">// * 5.阻塞式接收包裹receive(DatagramPacekt)</span></span><br><span class="line">		server.receive(packet);</span><br><span class="line">    	</span><br><span class="line">    	<span class="comment">//关闭 DatagramSocket 对象</span></span><br><span class="line">    	server.colse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 网络编程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/12/13/%E5%88%9D%E5%AD%A6java-IO/" rel="next" title="初学java-IO">
+                  <i class="fa fa-chevron-left"></i> 初学java-IO
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/12/16/%E5%88%9D%E5%AD%A6Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="prev" title="初学Java-多线程">
+                  初学Java-多线程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP-与-UDP-协议"><span class="nav-number">1.</span> <span class="nav-text">TCP 与 UDP 协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#套字节与端口"><span class="nav-number">2.</span> <span class="nav-text">套字节与端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-InetAddress-类"><span class="nav-number">3.</span> <span class="nav-text">Java InetAddress 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-TCP通信"><span class="nav-number">4.</span> <span class="nav-text">Java TCP通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ServerSocket-类"><span class="nav-number">4.1.</span> <span class="nav-text">ServerSocket 类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Socket-类"><span class="nav-number">4.2.</span> <span class="nav-text">Socket 类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-UDP通信"><span class="nav-number">5.</span> <span class="nav-text">Java UDP通信</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DatagramPacket类"><span class="nav-number">5.1.</span> <span class="nav-text">DatagramPacket类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DatagramSocket-类"><span class="nav-number">5.2.</span> <span class="nav-text">DatagramSocket 类</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="li bing"
+      src="/images/header.jpg">
+  <p class="site-author-name" itemprop="name">li bing</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/libingQAQ" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;libingQAQ" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019-2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">li bing</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">15k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">14 分钟</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">全站共6.6k字</span>
+</div>
+<span id="busuanzi_container_site_uv">
+  本站访问次数：<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+</span>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

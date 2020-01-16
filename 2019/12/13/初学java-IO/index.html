@@ -46,18 +46,18 @@
   };
 </script>
 
-  <meta name="description" content="记录一些常用的Hexo命令。">
-<meta name="keywords" content="常用命令,Hexo">
+  <meta name="description" content="特地对java的IO做一个总结">
+<meta name="keywords" content="java,IO">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo命令">
-<meta property="og:url" content="https:&#x2F;&#x2F;libingqaq.github.io&#x2F;2019&#x2F;11&#x2F;17&#x2F;Hexo%E5%91%BD%E4%BB%A4&#x2F;index.html">
+<meta property="og:title" content="初学java-IO">
+<meta property="og:url" content="https:&#x2F;&#x2F;libingqaq.github.io&#x2F;2019&#x2F;12&#x2F;13&#x2F;%E5%88%9D%E5%AD%A6java-IO&#x2F;index.html">
 <meta property="og:site_name" content="阿兵的小窝">
-<meta property="og:description" content="记录一些常用的Hexo命令。">
+<meta property="og:description" content="特地对java的IO做一个总结">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-14T06:50:45.531Z">
+<meta property="og:updated_time" content="2019-12-19T14:20:06.660Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://libingqaq.github.io/2019/11/17/Hexo%E5%91%BD%E4%BB%A4/">
+<link rel="canonical" href="https://libingqaq.github.io/2019/12/13/%E5%88%9D%E5%AD%A6java-IO/">
 
 
 <script id="page-configurations">
@@ -71,7 +71,7 @@
   };
 </script>
 
-  <title>Hexo命令 | 阿兵的小窝</title>
+  <title>初学java-IO | 阿兵的小窝</title>
   
 
 
@@ -201,7 +201,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://libingQAQ.github.io/2019/11/17/Hexo%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="https://libingQAQ.github.io/2019/12/13/%E5%88%9D%E5%AD%A6java-IO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/header.jpg">
@@ -214,7 +214,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hexo命令
+          初学java-IO
         </h1>
 
         <div class="post-meta">
@@ -224,14 +224,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2019-11-17 17:09:07" itemprop="dateCreated datePublished" datetime="2019-11-17T17:09:07+08:00">2019-11-17</time>
+              <time title="创建时间：2019-12-13 20:43:12" itemprop="dateCreated datePublished" datetime="2019-12-13T20:43:12+08:00">2019-12-13</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-14 14:50:45" itemprop="dateModified" datetime="2019-12-14T14:50:45+08:00">2019-12-14</time>
+                <time title="修改时间：2019-12-19 22:20:06" itemprop="dateModified" datetime="2019-12-19T22:20:06+08:00">2019-12-19</time>
               </span>
 
           
@@ -247,14 +247,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>620</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -266,52 +266,73 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>记录一些常用的Hexo命令。</p>
+        <p>特地对java的IO做一个总结</p>
 <a id="more"></a>
+<h2 id="IO概述"><a href="#IO概述" class="headerlink" title="IO概述"></a>IO概述</h2><ul>
+<li>IO中最重要的5个类和1个接口：<strong>File、OutputStream、InputStream、Writer、Reader；Serializable.</strong></li>
+</ul>
+<h2 id="io体系"><a href="#io体系" class="headerlink" title="io体系"></a>io体系</h2><p>从操作方向(<strong>代码的角度</strong>)来看，IO类可以分为：</p>
+<ul>
+<li>输入流：读取/输入数据 到代码</li>
+<li>输出流：把代码的数据 写出/输出</li>
+</ul>
+<hr>
+<p>从操作类型来看，IO类可以分为：</p>
+<ul>
+<li>字节流 : 字节流可以操作任何数据(文本，图片，视频)，因为所有的数据都是以字节的形式存储。</li>
+<li>字符流 : 字符流只能操作字符数据。</li>
+</ul>
+<p><em>Q: 字符在计算机中是怎么表示的？</em><br><em>A：将字符是按照规则翻译对应的二进制数(编码)，一个字符通常用多个字节存储。</em></p>
+<p><em>Q: 字节流可以操作字符数据吗？</em><br><em>A：”字节流可以操作任何数据 “，是可以操作的，但是。。。</em></p>
+<p><em>Q: 字节流可以操作任何数据，为什么还需要字符流？</em><br><em>A：字节流处理文本文件会出现乱码问题(字节流不编码&amp;解码)，所以需要字符流来处理文本文件。</em></p>
+<p><em>Q：那我就是想用字节流处理文本文件，咋办呢？</em><br><em>A：你自己用代码去编码，解码就可以了。</em></p>
+<p><em>Q：那既然有字符流，为啥没有图片流，音频流，视频流？</em><br><em>A：emmm,我等下去问问老师。</em></p>
+<p><em>Q：那什么时候用字符流，什么时候用字节流啊？</em><br><em>A：处理文本文件用字符流，其他的用字节流。</em></p>
+<hr>
+<p>从操作对象来看，IO类可以分为：</p>
+<ul>
+<li><p>文件(节点流)：对文件进行读取、写入操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FileInputStream, FileOutputStream</span><br><span class="line">FileWriter, FileReader</span><br></pre></td></tr></table></figure></li>
+<li><p>数组(节点流)：对数组进行读取、写入操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ByteArrayInputStream, ByteArrayOutputStream</span><br><span class="line">CharArrayReader, CharArrayWriter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>管道操作(节点流)：实现管道的输入和输出（线程间通信）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PipedInputStream, PipedOutputStream</span><br><span class="line">PipedReader, PipedWriter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>缓冲操作(处理流)：在读入或写出时，对数据进行缓存，以减少I/O的次数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BufferedInputStream, BufferedOutputStream</span><br><span class="line">BufferedReader, BufferedWriter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字节转换字符(处理流)：按照一定的编码/解码标准将字节流转换为字符流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InputStreamReader、OutputStreWriter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打印(处理流)：包含方便的打印方法 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PrintStream、PrintWriter</span><br></pre></td></tr></table></figure></li>
+<li><p>基本数据类型(处理流)：允许应用程序以与机器无关方式从底层输入流中读写基本 Java 数据类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataInputStream、DataOutputStream</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对象序列化反序列化(处理流)：保存在内存中的各种对象的状态。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream、ObjectOutputStream</span><br></pre></td></tr></table></figure>
 
-<h3 id="hexo-s"><a href="#hexo-s" class="headerlink" title="hexo s"></a>hexo s</h3><p><code>hexo s</code></p>
-<ul>
-<li>启动本地服务器，用于预览主题。默认地址： <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></li>
-<li>hexo s 是 hexo server 的缩写，命令效果一致；</li>
-<li>预览的同时可以修改文章内容或主题代码，保存后刷新页面即可；</li>
-<li>对 Hexo 根目录 _config.yml 的修改，需要重启本地服务器后才能预览效果。</li>
-</ul>
-<hr>
-<h3 id="hexo-new"><a href="#hexo-new" class="headerlink" title="hexo new"></a>hexo new</h3><p><code>hexo new &quot;常用hexo语法 一&quot;</code></p>
-<ul>
-<li>新建一篇标题为 常用hexo命令 一 的文章，因为标题里有空格，所以加上了引号。</li>
-<li>文章标题可以在对应 md 文件里改，新建时标题可以写的简单些。</li>
-</ul>
-<hr>
-<h3 id="hexo-d"><a href="#hexo-d" class="headerlink" title="hexo d"></a>hexo d</h3><p><code>hexo d</code></p>
-<ul>
-<li><p>自动生成网站静态文件，并部署到设定的仓库。</p>
-</li>
-<li><p>hexo d 是 hexo deploy 的缩写，命令效果一致。</p>
 </li>
 </ul>
+<p><strong>节点流：程序用于直接操作目标设备所对应的类</strong><br><strong>处理流：程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据</strong><br><strong>节点流是一杯原味咖啡的话，处理流就是各种配料，让节点流更好喝</strong></p>
+<p><em>Q：处理流要怎么使用呢？</em><br><em>A：实例化处理流类的时候要给一个节点流对象，</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader());</span><br><span class="line">InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream());</span><br></pre></td></tr></table></figure>
+
+<p><em>Q：为什么不直接操作数组，而用内存数组流呢？</em><br><em>A：数组是基本数据类型，而内存数组流是类，就和有<code>int</code>但是还有Integer类是一样的。</em></p>
+<p><em>Q：管道是啥啊？</em><br><em>A：emmm,我也不懂，等我学会了再告诉你……</em></p>
+<p><em>Q：什么情况下用缓存流啊？</em><br><em>A：缓存流可以优化性能，看到文件流和数组流就套上去。但是没必要套几个缓存流，一个就够了。</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BufferedReader br = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader());</span><br></pre></td></tr></table></figure>
+
+<p><em>Q：什么情况下用字节转换字符流啊？</em><br><em>A：<code>FileReader</code>和 <code>FileWriter</code>的<strong>字符编码</strong>是IDEA的设置，要使用别的<strong>字符编码</strong>，就用字节转换字节流。</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(),<span class="string">"GBK"</span>);</span><br></pre></td></tr></table></figure>
+
+<p><em>Q：打印流可以用来辅助输入流吗？</em><br><em>A：不可以，打印流只能为其他输出流添加功能。所以打印流永远不会抛出IO异常。</em></p>
+<p><em>Q：<code>PrintStream</code>和 <code>PrintWriter</code>有么区别啊？</em><br><em>A：<code>PrintStream</code>和 <code>PrintWriter</code>中的方法是一样的，但是 <code>PrintWriter</code>的构造方法比 <code>PrintStream</code>多了一个接收 字符流 的构成方法( <code>PrintWriter</code>比 <code>PrintStream</code>灵活)，所以掌握 <code>PrintWriter</code>就可以了</em></p>
+<p><em>Q：基本数据类型流是的功能好像不是很有用唉！</em><br><em>A：有用的很！用 <code>FileOutputStream</code>写入一个<code>int</code>类型的数据到文件，只会写入最低位，。而用 <code>DataOutputStream</code>就能避免这样的情况。</em></p>
+<p><em>Q：那使用基本数据类型流有什么要注意的？</em><br><em>A：读取数据的顺序一定要和写入的顺序一致。</em></p>
+<p><em>Q：所以的对象都可以通过序列化保持下来吗？</em><br><em>A：只要该类实现了 <code>java.io.Serializable</code>接口，都可以序列化或者反序列化。如果有属性不需要序列化，可以用 <code>transient</code>关键字修饰。</em></p>
 <hr>
-<h3 id="hexo-clean"><a href="#hexo-clean" class="headerlink" title="hexo clean"></a>hexo clean</h3><p><code>hexo clean</code></p>
-<ul>
-<li>清除缓存文件 db.json 和已生成的静态文件 public 。</li>
-<li>网站显示异常时可以执行这条命令试试。</li>
-</ul>
-<hr>
-<h3 id="hexo-g"><a href="#hexo-g" class="headerlink" title="hexo g"></a>hexo g</h3><p><code>hexo g</code></p>
-<ul>
-<li>生成网站静态文件到默认设置的 public 文件夹。</li>
-<li>便于查看网站生成的静态文件或者手动部署网站；</li>
-<li>如果使用自动部署，不需要先执行该命令；</li>
-<li>hexo g 是 hexo generate 的缩写，命令效果一致。</li>
-</ul>
-<hr>
-<h3 id="hexo-new-page"><a href="#hexo-new-page" class="headerlink" title="hexo new page"></a>hexo new page</h3><p><code>hexo new page aboutme</code></p>
-<ul>
-<li>新建一个标题为 aboutme 的页面，默认链接地址为 主页地址/aboutme/</li>
-<li>标题可以为中文，但一般习惯用英文；</li>
-<li>页面标题和文章一样可以随意修改；</li>
-<li>页面不会出现在首页文章列表和归档中，也不支持设置分类和标签。</li>
-</ul>
 
     </div>
 
@@ -321,21 +342,24 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="tag"><i class="fa fa-tag"></i> 常用命令</a>
-              <a href="/tags/Hexo/" rel="tag"><i class="fa fa-tag"></i> Hexo</a>
+              <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+              <a href="/tags/IO/" rel="tag"><i class="fa fa-tag"></i> IO</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/17/%E5%B8%B8%E7%94%A8Markd%E5%91%BD%E4%BB%A4/" rel="next" title="Markdown命令">
+                  <i class="fa fa-chevron-left"></i> Markdown命令
+                </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/17/%E5%B8%B8%E7%94%A8Markd%E5%91%BD%E4%BB%A4/" rel="prev" title="Markdown命令">
-                  Markdown命令 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/12/16/%E5%88%9D%E5%AD%A6Java-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="prev" title="初学Java-网络编程">
+                  初学Java-网络编程 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -375,7 +399,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-s"><span class="nav-number">1.</span> <span class="nav-text">hexo s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-new"><span class="nav-number">2.</span> <span class="nav-text">hexo new</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-d"><span class="nav-number">3.</span> <span class="nav-text">hexo d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-clean"><span class="nav-number">4.</span> <span class="nav-text">hexo clean</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-g"><span class="nav-number">5.</span> <span class="nav-text">hexo g</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-new-page"><span class="nav-number">6.</span> <span class="nav-text">hexo new page</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO概述"><span class="nav-number">1.</span> <span class="nav-text">IO概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#io体系"><span class="nav-number">2.</span> <span class="nav-text">io体系</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
