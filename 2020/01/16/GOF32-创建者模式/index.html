@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="li bing">
   <meta name="keywords" content="">
-  <title>Markdown命令 - 阿兵的小窝</title>
+  <title>GOF32 - 阿兵的小窝</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -161,8 +161,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2019-11-17 17:09" pubdate>
-        2019年11月17日 下午
+      <time datetime="2020-01-16 12:43" pubdate>
+        2020年1月16日 下午
       </time>
     </span>
   
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      78 字
+      523 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      8
        分钟
     </span>
   
@@ -213,23 +213,136 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">Markdown命令</h1>
+            <h1 style="display: none">GOF32</h1>
             
             <div class="markdown-body" id="post-body">
-              <p>记录一些常用的Markdown语法。</p>
-<a id="more"></a>
+              <h3 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h3><ul>
+<li>分离了对象子组件的单独构造（由 Builder 来负责）和装配（由 Director 负责）。从而可以构造出复杂的对象。这个模式适用于：某个对象的构建过程复杂的情况下使用。</li>
+<li>由于时下按了构建和装配的解耦。不同的构建起，相同的装配，也可以做出不同的对象；相同的构建起，不同的装配顺序也可以做出不同的对象。也就算实现了构建算法、装配算法的解耦，实现了更好的复用。</li>
+</ul>
+<pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AirShip</span> </span>&#123;
+	<span class="hljs-keyword">private</span> OrbitalModule orbitalModule; <span class="hljs-comment">// 轨道舱</span>
+	<span class="hljs-keyword">private</span> Engine engine; <span class="hljs-comment">// 发动机</span>
+	<span class="hljs-keyword">private</span> EscapeTower escapeTower; <span class="hljs-comment">// 逃逸塔</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">launch</span><span class="hljs-params">()</span> </span>&#123;
+		System.out.println(<span class="hljs-string">"发射！"</span>);
+	&#125;
 
-<h2 id="mermaid"><a href="#mermaid" class="headerlink" title="mermaid"></a>mermaid</h2><p>语法框架：</p>
-<pre><code class="hljs apl">```mermaid
-    ……流程图代码……
-```</code></pre>
-<hr>
-<p>起始代码：<br>graph &lt;布局方向&gt;</p>
-<pre><code class="hljs apl">graph TB
-    ...
-    ...</code></pre>
-<p>TB（Top Bottom）表示从上向下布局<br>BT（Bottom Top）表示从下向下布局<br>LR（Left Right）表示从左向右布局<br>RL（Right Left）表示从右向左布局</p>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> OrbitalModule <span class="hljs-title">getOrbitalModule</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> orbitalModule;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setOrbitalModule</span><span class="hljs-params">(OrbitalModule orbitalModule)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.orbitalModule = orbitalModule;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> Engine <span class="hljs-title">getEngine</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> engine;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setEngine</span><span class="hljs-params">(Engine engine)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.engine = engine;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> EscapeTower <span class="hljs-title">getEscapeTower</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> escapeTower;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setEscapeTower</span><span class="hljs-params">(EscapeTower escapeTower)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.escapeTower = escapeTower;
+	&#125;
+&#125;
 
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrbitalModule</span> </span>&#123;
+	<span class="hljs-keyword">private</span> String name;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">OrbitalModule</span><span class="hljs-params">(String name)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.name = name;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> name;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.name = name;
+	&#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Engine</span> </span>&#123;
+	<span class="hljs-keyword">private</span> String name;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Engine</span><span class="hljs-params">(String name)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.name = name;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> name;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.name = name;
+	&#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EscapeTower</span> </span>&#123;
+	<span class="hljs-keyword">private</span> String name;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> name;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.name = name;
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EscapeTower</span><span class="hljs-params">(String name)</span> </span>&#123;
+		<span class="hljs-keyword">super</span>();
+		<span class="hljs-keyword">this</span>.name = name;
+	&#125;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AirShipBuilder</span> </span>&#123;
+	<span class="hljs-function">Engine <span class="hljs-title">builderEngine</span><span class="hljs-params">()</span></span>;
+	<span class="hljs-function">OrbitalModule <span class="hljs-title">builderOrbitalModule</span><span class="hljs-params">()</span></span>;
+	<span class="hljs-function">EscapeTower <span class="hljs-title">builderEscapeTower</span><span class="hljs-params">()</span></span>;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AirShipDirector</span> </span>&#123;
+	<span class="hljs-comment">/**
+	 * 组装飞船对象
+	 * <span class="hljs-doctag">@return</span>
+	 */</span>
+	<span class="hljs-function">AirShip <span class="hljs-title">directAirShip</span><span class="hljs-params">()</span></span>;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbinAirShipBuilder</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AirShipBuilder</span> </span>&#123;
+	<span class="hljs-comment">//StringBuilder, 以后学习XML解析中，JDOM库中的类：DomBuilder,SaxBuilder</span>
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> Engine <span class="hljs-title">builderEngine</span><span class="hljs-params">()</span> </span>&#123;
+		System.out.println(<span class="hljs-string">"构建发动机！"</span>);
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Engine(<span class="hljs-string">"Abin发动机！"</span>);
+	&#125;
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> EscapeTower <span class="hljs-title">builderEscapeTower</span><span class="hljs-params">()</span> </span>&#123;
+		System.out.println(<span class="hljs-string">"构建逃逸塔"</span>);
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> EscapeTower(<span class="hljs-string">"Abin逃逸塔"</span>);
+	&#125;
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> OrbitalModule <span class="hljs-title">builderOrbitalModule</span><span class="hljs-params">()</span> </span>&#123;
+		System.out.println(<span class="hljs-string">"构建轨道舱"</span>);
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> OrbitalModule(<span class="hljs-string">"Abin轨道舱"</span>);
+	&#125;
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbinAirshipDirector</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AirShipDirector</span> </span>&#123;
+	<span class="hljs-keyword">private</span> AirShipBuilder builder;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AbinAirshipDirector</span><span class="hljs-params">(AirShipBuilder builder)</span> </span>&#123;
+		<span class="hljs-keyword">this</span>.builder = builder;
+	&#125;
+	<span class="hljs-meta">@Override</span>
+	<span class="hljs-function"><span class="hljs-keyword">public</span> AirShip <span class="hljs-title">directAirShip</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-comment">//装配成飞船对象</span>
+		AirShip ship = <span class="hljs-keyword">new</span> AirShip();
+		ship.setEngine(builder.builderEngine());
+		ship.setEscapeTower(builder.builderEscapeTower());
+		ship.setOrbitalModule(builder.builderOrbitalModule());
+		
+		<span class="hljs-keyword">return</span> ship;
+	&#125;
+&#125;
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Client</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        AirShipDirector director=<span class="hljs-keyword">new</span> AbinAirshipDirector(<span class="hljs-keyword">new</span> AbinAirShipBuilder());
+        AirShip ship = director.directAirShip();
+        System.out.println(ship.getEngine().getName());
+    &#125;
+&#125;</code></pre>
             </div>
             <hr>
             <div>
@@ -239,9 +352,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">常用命令</a>
-                    
-                      <a class="hover-with-bg" href="/tags/Markdown/">Markdown</a>
+                      <a class="hover-with-bg" href="/tags/GOF32/">GOF32</a>
                     
                   </div>
                 
@@ -254,9 +365,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/12/13/%E5%88%9D%E5%AD%A6java-IO/">
+                      <a href="/2020/01/17/%E5%88%9D%E5%AD%A6java-JDBC/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">初学java-IO</span>
+                        <span class="hidden-mobile">初学java-JDBC</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -264,8 +375,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/11/17/Hexo%E5%91%BD%E4%BB%A4/">
-                        <span class="hidden-mobile">Hexo命令</span>
+                      <a href="/2020/01/15/GOF32-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
+                        <span class="hidden-mobile">GOF32-工厂模式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -408,7 +519,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Markdown命令&nbsp;",
+        "GOF32&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
