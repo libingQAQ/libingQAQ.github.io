@@ -1,0 +1,995 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="libing">
+  <meta name="keywords" content="">
+  <title>源码解读-LinkedList - 阿兵</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+</head>
+
+
+<body>
+  <header style="height: 40vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>阿兵</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/banner2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-05 11:29" pubdate>
+        2020年10月5日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      41
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">源码解读-LinkedList</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>LinkedList是 java 集合框架中比较常用的数据结构，是List最重要的两个实现类，底层是链表，适合数据更新多的情况。</p>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LinkedList</span>&lt;<span class="hljs-title">E</span>&gt;
+    <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractSequentialList</span>&lt;<span class="hljs-title">E</span>&gt;
+    <span class="hljs-keyword">implements</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">E</span>&gt;, <span class="hljs-title">Deque</span>&lt;<span class="hljs-title">E</span>&gt;, <span class="hljs-title">Cloneable</span>, <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">Serializable</span></span></code></pre>
+
+<p>LinkedList不仅实现了List，还实现了Deque（双端队列）</p>
+<h1 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h1><pre><code class="hljs java"><span class="hljs-keyword">transient</span> <span class="hljs-keyword">int</span> size = <span class="hljs-number">0</span>; <span class="hljs-comment">//链表中的数量</span>
+
+<span class="hljs-comment">/**
+ * Pointer to first node.
+ * Invariant: (first == null &amp;&amp; last == null) ||
+ *            (first.prev == null &amp;&amp; first.item != null)
+ */</span>
+<span class="hljs-keyword">transient</span> Node&lt;E&gt; first; <span class="hljs-comment">//头节点</span>
+
+<span class="hljs-comment">/**
+ * Pointer to last node.
+ * Invariant: (first == null &amp;&amp; last == null) ||
+ *            (last.next == null &amp;&amp; last.item != null)
+ */</span>
+<span class="hljs-keyword">transient</span> Node&lt;E&gt; last;  <span class="hljs-comment">//尾节点</span></code></pre>
+
+<p>字段非常少，size表示当前节点数量，first指向链表的起始元素、last指向链表的最后一个元素。</p>
+<p>我们来看一下 <code>Node</code>: </p>
+<pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>&lt;<span class="hljs-title">E</span>&gt; </span>&#123;
+    E item;        <span class="hljs-comment">//元素</span>
+    Node&lt;E&gt; next;  <span class="hljs-comment">//后继</span>
+    Node&lt;E&gt; prev;  <span class="hljs-comment">//前驱</span>
+
+    <span class="hljs-comment">//构造方法，指定前驱和后继</span>
+    Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;
+        <span class="hljs-keyword">this</span>.item = element;
+        <span class="hljs-keyword">this</span>.next = next;
+        <span class="hljs-keyword">this</span>.prev = prev;
+    &#125;
+&#125;</code></pre>
+
+<p>Node 节点有前驱和后继，所有LinkedList的底层是一个双向链表</p>
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><h3 id="无参构造方法"><a href="#无参构造方法" class="headerlink" title="无参构造方法"></a>无参构造方法</h3><p>构造一个空链表</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Constructs an empty list.
+*/</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LinkedList</span><span class="hljs-params">()</span> </span>&#123;
+&#125;</code></pre>
+
+
+
+<h3 id="有参构造方法"><a href="#有参构造方法" class="headerlink" title="有参构造方法"></a>有参构造方法</h3><p> 将指定Collection对象里的元素构造成一个LinkedList</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Constructs a list containing the elements of the specified
+ * collection, in the order they are returned by the collection's
+ * iterator.
+ *
+ * <span class="hljs-doctag">@param</span>  c the collection whose elements are to be placed into this list
+ * <span class="hljs-doctag">@throws</span> NullPointerException if the specified collection is null
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LinkedList</span><span class="hljs-params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;
+    <span class="hljs-keyword">this</span>();
+    addAll(c);
+&#125;</code></pre>
+
+
+
+<h1 id="链表相关操作"><a href="#链表相关操作" class="headerlink" title="链表相关操作"></a>链表相关操作</h1><p>因为LinkedList的底层是链表，所以我们来看一下相关方法。</p>
+<h2 id="linkLast-E-e"><a href="#linkLast-E-e" class="headerlink" title="linkLast(E e)"></a>linkLast(E e)</h2><p>将元素链接到表尾</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Links e as last element.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">linkLast</span><span class="hljs-params">(E e)</span> </span>&#123;
+    <span class="hljs-comment">//last指向表尾</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; l = last;     
+    <span class="hljs-comment">//创建一个node，前驱是last，后继为null</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; newNode = <span class="hljs-keyword">new</span> Node&lt;&gt;(l, e, <span class="hljs-keyword">null</span>);
+    
+    <span class="hljs-comment">//开始链接    </span>
+    <span class="hljs-comment">//更新last，last指向表尾</span>
+    last = newNode;    
+    <span class="hljs-keyword">if</span> (l == <span class="hljs-keyword">null</span>)
+        first = newNode;   <span class="hljs-comment">//如果链表只有一个节点，那么双向链表的first和last指向同一个节点</span>
+    <span class="hljs-keyword">else</span>
+        l.next = newNode;  <span class="hljs-comment">//将newNode链接到最后一个元素。</span>
+    <span class="hljs-comment">//更新size</span>
+    size++;
+    modCount++;
+&#125;</code></pre>
+
+<p>图示如下：</p>
+<p><img src="http://smartrobin.cn/linkLast.png" srcset="/img/loading.gif" alt=""></p>
+<h2 id="linkFirst-E-e"><a href="#linkFirst-E-e" class="headerlink" title="linkFirst(E e)"></a>linkFirst(E e)</h2><p>链接元素到表头</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Links e as first element.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">linkFirst</span><span class="hljs-params">(E e)</span> </span>&#123;
+    <span class="hljs-comment">// first指向表头</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; f = first;
+    <span class="hljs-comment">// 创建一个newNode，前驱为null，后继为first</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; newNode = <span class="hljs-keyword">new</span> Node&lt;&gt;(<span class="hljs-keyword">null</span>, e, f);
+   
+    <span class="hljs-comment">// 开始链接操作</span>
+    <span class="hljs-comment">// 更新first, first指向表头</span>
+    first = newNode;
+    <span class="hljs-keyword">if</span> (f == <span class="hljs-keyword">null</span>)
+        last = newNode;  <span class="hljs-comment">//如果链表只有一个节点，那么双向链表的first和last指向同一个节点</span>
+    <span class="hljs-keyword">else</span>
+        f.prev = newNode;  <span class="hljs-comment">//将newNode链接到表头。</span>
+    <span class="hljs-comment">//更新size</span>
+    size++;
+    modCount++;
+&#125;</code></pre>
+
+<p>图示如下</p>
+<p><img src="http://smartrobin.cn/linkFirst.png" srcset="/img/loading.gif" alt=""></p>
+<h2 id="linkBefore-E-e-Node-succ"><a href="#linkBefore-E-e-Node-succ" class="headerlink" title="linkBefore(E e, Node succ)"></a>linkBefore(E e, Node<E> succ)</h2><p>将元素链接在node之前</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Inserts element e before non-null Node succ.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">linkBefore</span><span class="hljs-params">(E e, Node&lt;E&gt; succ)</span> </span>&#123;
+    <span class="hljs-comment">// assert succ != null;</span>
+    
+    <span class="hljs-comment">// 找到前驱节点</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; pred = succ.prev;
+    
+    <span class="hljs-comment">//创建一个newNode，前驱和succ的前驱，后继是succ</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; newNode = <span class="hljs-keyword">new</span> Node&lt;&gt;(pred, e, succ);
+    
+    <span class="hljs-comment">//更新succ的前驱为newNode</span>
+    succ.prev = newNode;
+    
+    <span class="hljs-keyword">if</span> (pred == <span class="hljs-keyword">null</span>)
+        first = newNode;   <span class="hljs-comment">//如果succ是表头，则更新first为newNode</span>
+    <span class="hljs-keyword">else</span>
+        pred.next = newNode;  <span class="hljs-comment">//	</span>
+    <span class="hljs-comment">//更新size</span>
+    size++;
+    modCount++;
+&#125;</code></pre>
+
+<p>图示如下：</p>
+<p><img src="http://smartrobin.cn/linkBefore.png" srcset="/img/loading.gif" alt=""></p>
+<h2 id="unlinkFirst-Node-f"><a href="#unlinkFirst-Node-f" class="headerlink" title="unlinkFirst(Node f)"></a>unlinkFirst(Node<E> f)</h2><p>删除头节点f，并返回其元素。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Unlinks non-null first node f.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> E <span class="hljs-title">unlinkFirst</span><span class="hljs-params">(Node&lt;E&gt; f)</span> </span>&#123;
+    <span class="hljs-comment">// assert f == first &amp;&amp; f != null;</span>
+    <span class="hljs-keyword">final</span> E element = f.item;
+    <span class="hljs-comment">// 节点f的后继</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; next = f.next;   
+    f.item = <span class="hljs-keyword">null</span>; <span class="hljs-comment">// help GC</span>
+    f.next = <span class="hljs-keyword">null</span>; <span class="hljs-comment">// help GC</span>
+    <span class="hljs-comment">// 更新 first</span>
+    first = next;
+    <span class="hljs-keyword">if</span> (next == <span class="hljs-keyword">null</span>)
+        last = <span class="hljs-keyword">null</span>;   <span class="hljs-comment">//此时链表为空，last，first同时指向null</span>
+    <span class="hljs-keyword">else</span>
+        next.prev = <span class="hljs-keyword">null</span>; <span class="hljs-comment">//将next的前驱置为null</span>
+    <span class="hljs-comment">//更新size</span>
+    size--;
+    modCount++;
+    <span class="hljs-comment">//返回元素</span>
+    <span class="hljs-keyword">return</span> element;
+&#125;</code></pre>
+
+<p>图示如下：</p>
+<p><img src="http://smartrobin.cn/unLinkFirst.png" srcset="/img/loading.gif" alt=""></p>
+<h2 id="unlinkLast-Node-l"><a href="#unlinkLast-Node-l" class="headerlink" title="unlinkLast(Node l)"></a>unlinkLast(Node<E> l)</h2><p>删除尾节点L，并返回其元素。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Unlinks non-null last node l.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> E <span class="hljs-title">unlinkLast</span><span class="hljs-params">(Node&lt;E&gt; l)</span> </span>&#123;
+    <span class="hljs-comment">// assert l == last &amp;&amp; l != null;</span>
+    <span class="hljs-keyword">final</span> E element = l.item;
+    <span class="hljs-comment">//节点l的前驱</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; prev = l.prev;
+    l.item = <span class="hljs-keyword">null</span>;
+    l.prev = <span class="hljs-keyword">null</span>; <span class="hljs-comment">// help GC</span>
+    <span class="hljs-comment">//更新last</span>
+    last = prev;
+    <span class="hljs-keyword">if</span> (prev == <span class="hljs-keyword">null</span>)
+        first = <span class="hljs-keyword">null</span>;   <span class="hljs-comment">//此时链表为空，last，first同时指向null</span>
+    <span class="hljs-keyword">else</span>
+        prev.next = <span class="hljs-keyword">null</span>; <span class="hljs-comment">//将prev的后继置为null</span>
+    <span class="hljs-comment">//更新size</span>
+    size--;
+    modCount++;
+    <span class="hljs-keyword">return</span> element;
+&#125;</code></pre>
+
+<p><img src="http://smartrobin.cn/unLinkLast.png" srcset="/img/loading.gif" alt=""></p>
+<h2 id="unlink-Node-x"><a href="#unlink-Node-x" class="headerlink" title="unlink(Node x)"></a>unlink(Node<E> x)</h2><pre><code class="hljs java"><span class="hljs-comment">/**
+ * Unlinks non-null node x.
+ */</span>
+<span class="hljs-function">E <span class="hljs-title">unlink</span><span class="hljs-params">(Node&lt;E&gt; x)</span> </span>&#123;
+    <span class="hljs-comment">// assert x != null;</span>
+    <span class="hljs-keyword">final</span> E element = x.item;
+    <span class="hljs-comment">// 后继</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; next = x.next;
+    <span class="hljs-comment">// 前驱</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; prev = x.prev;
+
+   
+    <span class="hljs-keyword">if</span> (prev == <span class="hljs-keyword">null</span>) &#123;
+        first = next;  <span class="hljs-comment">//如果前驱是null，更新first</span>
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        prev.next = next;  <span class="hljs-comment">//更新prev的后继</span>
+        x.prev = <span class="hljs-keyword">null</span>;   
+    &#125;
+
+    <span class="hljs-keyword">if</span> (next == <span class="hljs-keyword">null</span>) &#123;  <span class="hljs-comment">//如果后继是null，更新last</span>
+        last = prev;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        next.prev = prev;  <span class="hljs-comment">//更新next的前驱</span>
+        x.next = <span class="hljs-keyword">null</span>;
+    &#125;
+
+    x.item = <span class="hljs-keyword">null</span>;
+    size--;
+    modCount++;
+    <span class="hljs-keyword">return</span> element;
+&#125;</code></pre>
+
+<p>如图所示：</p>
+<p><img src="http://smartrobin.cn/unLink.png" srcset="/img/loading.gif" alt=""></p>
+<h2 id="node-int-index"><a href="#node-int-index" class="headerlink" title="node(int index)"></a>node(int index)</h2><p>找到index位置上的节点。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Returns the (non-null) Node at the specified element index.
+ */</span>
+<span class="hljs-function">Node&lt;E&gt; <span class="hljs-title">node</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;
+    <span class="hljs-comment">// assert isElementIndex(index);</span>
+	
+    <span class="hljs-keyword">if</span> (index &lt; (size &gt;&gt; <span class="hljs-number">1</span>)) &#123;  <span class="hljs-comment">//从前找</span>
+        Node&lt;E&gt; x = first;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; index; i++)
+            x = x.next;
+        <span class="hljs-keyword">return</span> x;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        Node&lt;E&gt; x = last;     <span class="hljs-comment">//从后找</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = size - <span class="hljs-number">1</span>; i &gt; index; i--)
+            x = x.prev;
+        <span class="hljs-keyword">return</span> x;
+    &#125;
+&#125;</code></pre>
+
+<h1 id="List相关操作"><a href="#List相关操作" class="headerlink" title="List相关操作"></a>List相关操作</h1><h2 id="add-E-e"><a href="#add-E-e" class="headerlink" title="add(E e)"></a>add(E e)</h2><p>追加一个指定元素到list尾部，调用了<code>LinkLast</code>方法。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Appends the specified element to the end of this list.
+ *
+ * &lt;p&gt;This method is equivalent to &#123;<span class="hljs-doctag">@link</span> #addLast&#125;.
+ *
+ * <span class="hljs-doctag">@param</span> e element to be appended to this list
+ * <span class="hljs-doctag">@return</span> &#123;<span class="hljs-doctag">@code</span> true&#125; (as specified by &#123;<span class="hljs-doctag">@link</span> Collection#add&#125;)
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">add</span><span class="hljs-params">(E e)</span> </span>&#123;    
+    linkLast(e);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+&#125;</code></pre>
+
+
+
+
+<h2 id="remove-Object-o"><a href="#remove-Object-o" class="headerlink" title="remove(Object o)"></a>remove(Object o)</h2><p>删除指定元素，底层调用 unlink方法</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Removes the first occurrence of the specified element from this list,
+ * if it is present.  If this list does not contain the element, it is
+ * unchanged.  More formally, removes the element with the lowest index
+ * &#123;<span class="hljs-doctag">@code</span> i&#125; such that
+ * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;
+ * (if such an element exists).  Returns &#123;<span class="hljs-doctag">@code</span> true&#125; if this list
+ * contained the specified element (or equivalently, if this list
+ * changed as a result of the call).
+ *
+ * <span class="hljs-doctag">@param</span> o element to be removed from this list, if present
+ * <span class="hljs-doctag">@return</span> &#123;<span class="hljs-doctag">@code</span> true&#125; if this list contained the specified element
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">remove</span><span class="hljs-params">(Object o)</span> </span>&#123;  
+    <span class="hljs-comment">//如果指定删除元素为null</span>
+    <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span>) &#123;
+        <span class="hljs-keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="hljs-keyword">null</span>; x = x.next) &#123;
+            <span class="hljs-keyword">if</span> (x.item == <span class="hljs-keyword">null</span>) &#123;
+                unlink(x);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            &#125;
+        &#125;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="hljs-keyword">null</span>; x = x.next) &#123;
+            <span class="hljs-keyword">if</span> (o.equals(x.item)) &#123;
+                unlink(x);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+&#125;</code></pre>
+
+<p>大致流程是：先遍历找到指定元素，然后调用unlink方法删除。如果没找到，则返回false</p>
+<h2 id="addAll-Collection-lt-extends-E-gt-c"><a href="#addAll-Collection-lt-extends-E-gt-c" class="headerlink" title="addAll(Collection&lt;? extends E&gt; c)"></a>addAll(Collection&lt;? extends E&gt; c)</h2><p>将Collection对象中的所有元素都添加到链表末尾</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Appends all of the elements in the specified collection to the end of
+ * this list, in the order that they are returned by the specified
+ * collection's iterator.  The behavior of this operation is undefined if
+ * the specified collection is modified while the operation is in
+ * progress.  (Note that this will occur if the specified collection is
+ * this list, and it's nonempty.)
+ *
+ * <span class="hljs-doctag">@param</span> c collection containing elements to be added to this list
+ * <span class="hljs-doctag">@return</span> &#123;<span class="hljs-doctag">@code</span> true&#125; if this list changed as a result of the call
+ * <span class="hljs-doctag">@throws</span> NullPointerException if the specified collection is null
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">addAll</span><span class="hljs-params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> addAll(size, c);
+&#125;</code></pre>
+
+
+
+<h2 id="addAll-int-index-Collection-lt-extends-E-gt-c"><a href="#addAll-int-index-Collection-lt-extends-E-gt-c" class="headerlink" title="addAll(int index, Collection&lt;? extends E&gt; c)"></a>addAll(int index, Collection&lt;? extends E&gt; c)</h2><p>将Collection对象中的所有元素都插入到指定位置上，其实这个方法实现和linkBefore是差不多的，只不过是一次插入多个元素。</p>
+<pre><code class="hljs java">**
+ * Inserts all of the elements in the specified collection into <span class="hljs-keyword">this</span>
+ * list, starting at the specified position.  Shifts the element
+ * <span class="hljs-function">currently at that <span class="hljs-title">position</span> <span class="hljs-params">(<span class="hljs-keyword">if</span> any)</span> and any subsequent elements to
+ * the <span class="hljs-title">right</span> <span class="hljs-params">(increases their indices)</span>.  The new elements will appear
+ * in the list in the order that they are returned by the
+ * specified collection's iterator.
+ *
+ * @param index index at which to insert the first element
+ *              from the specified collection
+ * @param c collection containing elements to be added to <span class="hljs-keyword">this</span> list
+ */
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">addAll</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index, Collection&lt;? extends E&gt; c)</span> </span>&#123;
+    <span class="hljs-comment">//检查index是否合理</span>
+    checkPositionIndex(index);
+
+    Object[] a = c.toArray();
+    <span class="hljs-keyword">int</span> numNew = a.length;
+    <span class="hljs-keyword">if</span> (numNew == <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+
+    
+    Node&lt;E&gt; pred, succ;
+    
+    <span class="hljs-comment">//找到pred，和succ</span>
+    <span class="hljs-keyword">if</span> (index == size) &#123; <span class="hljs-comment">//如果index和size相等，则在末尾添加。</span>
+        succ = <span class="hljs-keyword">null</span>;
+        pred = last;  
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        succ = node(index); <span class="hljs-comment">//找到index上的节点</span>
+        pred = succ.prev;   
+    &#125;
+	
+    <span class="hljs-comment">// 这里可以想象成是插入了一个节点</span>
+    <span class="hljs-keyword">for</span> (Object o : a) &#123;
+        <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>) E e = (E) o;
+        <span class="hljs-comment">//创建newNode</span>
+        Node&lt;E&gt; newNode = <span class="hljs-keyword">new</span> Node&lt;&gt;(pred, e, <span class="hljs-keyword">null</span>);
+        <span class="hljs-keyword">if</span> (pred == <span class="hljs-keyword">null</span>)
+            first = newNode; <span class="hljs-comment">// 如果前驱是null，则该newNode就是头结点</span>
+        <span class="hljs-keyword">else</span>
+            pred.next = newNode;  <span class="hljs-comment">//更新pred的后继</span>
+        <span class="hljs-comment">//更新pred</span>
+        pred = newNode;
+    &#125;
+	
+    <span class="hljs-keyword">if</span> (succ == <span class="hljs-keyword">null</span>) &#123; <span class="hljs-comment">//如果succ是null，则更新last</span>
+        last = pred;  
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        pred.next = succ;  <span class="hljs-comment">//更新pred的后继</span>
+        succ.prev = pred;  <span class="hljs-comment">//更新suss的前驱</span>
+    &#125;
+
+    size += numNew;
+    modCount++;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+&#125;</code></pre>
+
+<h2 id="clear"><a href="#clear" class="headerlink" title="clear()"></a>clear()</h2><p>删除list中的所有元素。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Removes all of the elements from this list.
+ * The list will be empty after this call returns.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">// Clearing all of the links between nodes is "unnecessary", but:</span>
+    <span class="hljs-comment">// - helps a generational GC if the discarded nodes inhabit</span>
+    <span class="hljs-comment">//   more than one generation</span>
+    <span class="hljs-comment">// - is sure to free memory even if there is a reachable Iterator</span>
+    <span class="hljs-comment">//遍历删除</span>
+    <span class="hljs-keyword">for</span> (Node&lt;E&gt; x = first; x != <span class="hljs-keyword">null</span>; ) &#123;
+        Node&lt;E&gt; next = x.next;
+        
+        x.item = <span class="hljs-keyword">null</span>;   <span class="hljs-comment">//help GC</span>
+        x.next = <span class="hljs-keyword">null</span>; 
+        x.prev = <span class="hljs-keyword">null</span>;
+        x = next;  
+    &#125;
+    
+    first = last = <span class="hljs-keyword">null</span>;
+    size = <span class="hljs-number">0</span>;
+    modCount++;
+&#125;</code></pre>
+
+
+
+<h2 id="get-int-index"><a href="#get-int-index" class="headerlink" title="get(int index)"></a>get(int index)</h2><p>获取list中指定位置的元素。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Returns the element at the specified position in this list.
+ *
+ * <span class="hljs-doctag">@param</span> index index of the element to return
+ * <span class="hljs-doctag">@return</span> the element at the specified position in this list
+ * <span class="hljs-doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;
+    <span class="hljs-comment">//先检查index是否合理</span>
+    checkElementIndex(index);
+    <span class="hljs-comment">//返回元素</span>
+    <span class="hljs-keyword">return</span> node(index).item;
+&#125;</code></pre>
+
+<h2 id="set-int-index，E-element"><a href="#set-int-index，E-element" class="headerlink" title="set(int index，E element)"></a>set(int index，E element)</h2><p>修改list中指定位置的元素</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Replaces the element at the specified position in this list with the
+ * specified element.
+ *
+ * <span class="hljs-doctag">@param</span> index index of the element to replace
+ * <span class="hljs-doctag">@param</span> element element to be stored at the specified position
+ * <span class="hljs-doctag">@return</span> the element previously at the specified position
+ * <span class="hljs-doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">set</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index, E element)</span> </span>&#123;
+    <span class="hljs-comment">// 检查index是否合理</span>
+    checkElementIndex(index);
+    <span class="hljs-comment">// 找到节点</span>
+    Node&lt;E&gt; x = node(index);
+    <span class="hljs-comment">// 修改元素</span>
+    E oldVal = x.item;
+    x.item = element;
+	<span class="hljs-comment">// 返回旧元素</span>
+    <span class="hljs-keyword">return</span> oldVal;
+&#125;</code></pre>
+
+
+
+<h1 id="Deque相关操作"><a href="#Deque相关操作" class="headerlink" title="Deque相关操作"></a>Deque相关操作</h1><h2 id="getFirst"><a href="#getFirst" class="headerlink" title="getFirst()"></a>getFirst()</h2><p>返回队头元素，如果是空队列则抛出异常</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Returns the first element in this list.
+ *
+ * <span class="hljs-doctag">@return</span> the first element in this list
+ * <span class="hljs-doctag">@throws</span> NoSuchElementException if this list is empty
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">getFirst</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; f = first;
+    <span class="hljs-keyword">if</span> (f == <span class="hljs-keyword">null</span>)
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchElementException();
+    <span class="hljs-keyword">return</span> f.item;
+&#125;</code></pre>
+
+
+
+<h2 id="getLast"><a href="#getLast" class="headerlink" title="getLast()"></a>getLast()</h2><p>返回队尾元素，如果是空队列则抛出异常</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Returns the last element in this list.
+ *
+ * <span class="hljs-doctag">@return</span> the last element in this listjava
+ * <span class="hljs-doctag">@throws</span> NoSuchElementException if this list is empty
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">getLast</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; l = last;
+    <span class="hljs-keyword">if</span> (l == <span class="hljs-keyword">null</span>)
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchElementException();
+    <span class="hljs-keyword">return</span> l.item;
+&#125;</code></pre>
+
+
+
+<h2 id="removeFirst"><a href="#removeFirst" class="headerlink" title="removeFirst()"></a>removeFirst()</h2><p>删除队头元素，如果是空队列则抛出异常。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Removes and returns the first element from this list.
+ *
+ * <span class="hljs-doctag">@return</span> the first element from this list
+ * <span class="hljs-doctag">@throws</span> NoSuchElementException if this list is empty
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">removeFirst</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; f = first;
+    <span class="hljs-keyword">if</span> (f == <span class="hljs-keyword">null</span>)
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchElementException();
+    <span class="hljs-comment">//调用的双向链表的移除头节点操作</span>
+    <span class="hljs-keyword">return</span> unlinkFirst(f);
+&#125;</code></pre>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">源码解读</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LinkedList/">LinkedList</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%BF%AD%E4%BB%A3%E5%99%A8/">
+                        <span class="hidden-mobile">设计模式-迭代器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 2,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "源码解读-LinkedList&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

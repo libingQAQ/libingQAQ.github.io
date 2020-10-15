@@ -1,0 +1,1181 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="libing">
+  <meta name="keywords" content="">
+  <title>源码解读-ArrayList - 阿兵</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+</head>
+
+
+<body>
+  <header style="height: 40vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>阿兵</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/banner2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-04 14:29" pubdate>
+        2020年10月4日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      55
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">源码解读-ArrayList</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>ArrayList 是 java 集合框架中比较常用的数据结构，是List最重要的两个实现类，底层是数组，适合数据查询多的情况。</p>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArrayList</span>&lt;<span class="hljs-title">E</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractList</span>&lt;<span class="hljs-title">E</span>&gt;  <span class="hljs-keyword">implements</span> <span class="hljs-title">List</span>&lt;<span class="hljs-title">E</span>&gt;, <span class="hljs-title">RandomAccess</span>, <span class="hljs-title">Cloneable</span>, <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">erializable</span></span></code></pre>
+
+<p>AbstractList实现了通用的List方法，</p>
+<p>ArrayList支持 随机访问，复制，序列化 所以实现了RandomAccess，Cloneable，erializable接口</p>
+<h1 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h1><pre><code class="hljs java"><span class="hljs-comment">//版本号</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">8683452581122892189L</span>;
+
+<span class="hljs-comment">//默认容量</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> DEFAULT_CAPACITY = <span class="hljs-number">10</span>;
+
+<span class="hljs-comment">//空元素数组</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object[] EMPTY_ELEMENTDATA = &#123;&#125;;
+
+<span class="hljs-comment">//默认空元素数组</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;
+
+<span class="hljs-comment">//元素数组</span>
+<span class="hljs-keyword">transient</span> Object[] elementData; 
+
+<span class="hljs-comment">//实际元素大小</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> size;
+
+<span class="hljs-comment">//最大数组容量</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> MAX_ARRAY_SIZE = Integer.MAX_VALUE - <span class="hljs-number">8</span>;</code></pre>
+
+<p>ArrayList的底层实现是数组，数组必定是有限长度的，ArrayList中默认的数组大小是10。</p>
+<h1 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h1><h2 id="无参构造方法"><a href="#无参构造方法" class="headerlink" title="无参构造方法"></a>无参构造方法</h2><pre><code class="hljs java"><span class="hljs-comment">/**
+ * Constructs an empty list with an initial capacity of ten.
+ * 构造有十个初始容量的空列表
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ArrayList</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+&#125;</code></pre>
+
+<p>虽然注释说 这个空列表的初始容量是十个，其实是懒加载的，只有在第一次调用<code>add()</code>方法后才会有初始化。</p>
+<h2 id="有参构造方法（一）"><a href="#有参构造方法（一）" class="headerlink" title="有参构造方法（一）"></a>有参构造方法（一）</h2><pre><code class="hljs java"><span class="hljs-comment">/**
+ * Constructs an empty list with the specified initial capacity.
+ *
+ * <span class="hljs-doctag">@param</span>  initialCapacity  the initial capacity of the list
+ * <span class="hljs-doctag">@throws</span> IllegalArgumentException if the specified initial capacity
+ *         is negative
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ArrayList</span><span class="hljs-params">(<span class="hljs-keyword">int</span> initialCapacity)</span> </span>&#123;
+    <span class="hljs-keyword">if</span> (initialCapacity &gt; <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-keyword">this</span>.elementData = <span class="hljs-keyword">new</span> Object[initialCapacity];
+    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (initialCapacity == <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-keyword">this</span>.elementData = EMPTY_ELEMENTDATA;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Illegal Capacity: "</span>+
+                                           initialCapacity);
+    &#125;
+&#125;</code></pre>
+
+<p>通过指定的初始化容量构造一个空列表。</p>
+<h2 id="有参构造方法（二）"><a href="#有参构造方法（二）" class="headerlink" title="有参构造方法（二）"></a>有参构造方法（二）</h2><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ArrayList</span><span class="hljs-params">(Collection&lt;? extends E&gt; c)</span> </span>&#123;
+    elementData = c.toArray(); 
+    
+    <span class="hljs-keyword">if</span> ((size = elementData.length) != <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-comment">// c.toArray might (incorrectly) not return Object[] (see 6260652)</span>
+        <span class="hljs-comment">// 每个集合的toarray()的实现方法不一样，如果不是返回 Object[] ，则需要Arrays.copyOf方法改造一下。</span>
+        <span class="hljs-keyword">if</span> (elementData.getClass() != Object[]<span class="hljs-class">.<span class="hljs-keyword">class</span>)
+            <span class="hljs-title">elementData</span> </span>= Arrays.copyOf(elementData, size, Object[]<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-comment">// replace with empty array.</span>
+        <span class="hljs-comment">// 用空数组替换</span>
+        <span class="hljs-keyword">this</span>.elementData = EMPTY_ELEMENTDATA;
+    &#125;
+&#125;</code></pre>
+
+<p>通过一个Collection对象来构造列表。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>arrayList的构造方法就做一件事情，就是初始化一下储存数据的容器，其实本质上就是一个数组，在其中就叫elementData。</p>
+<h1 id="核心方法"><a href="#核心方法" class="headerlink" title="核心方法"></a>核心方法</h1><h2 id="add"><a href="#add" class="headerlink" title="add"></a>add</h2><h3 id="add-E-e"><a href="#add-E-e" class="headerlink" title="add(E e)"></a>add(E e)</h3><p>在ArrayList尾部添加元素</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Appends the specified element to the end of this list.
+ *
+ * <span class="hljs-doctag">@param</span> e element to be appended to this list
+ * <span class="hljs-doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; (as specified by &#123;<span class="hljs-doctag">@link</span> Collection#add&#125;)
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">add</span><span class="hljs-params">(E e)</span> </span>&#123;
+    <span class="hljs-comment">// 确保内部容量足够，这里是add方法，size要加1</span>
+    ensureCapacityInternal(size + <span class="hljs-number">1</span>);  <span class="hljs-comment">// Increments modCount!!</span>
+    
+    <span class="hljs-comment">//在数据中正确的位置上放上元素e，并且size++</span>
+    elementData[size++] = e;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+&#125;</code></pre>
+
+<p>这里看似只有简简单单的两边，首先确保容量足够，然后加入元素。</p>
+<p>其实不然，我们来看看<code>ensureCapacityInternal()</code>方法：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ensureCapacityInternal</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+    <span class="hljs-comment">//首先计算容量， 然后确保容量足够</span>
+    ensureExplicitCapacity(calculateCapacity(elementData, minCapacity));
+&#125;</code></pre>
+
+<p>先看计算容量的<code>calculateCapacity()</code>方法：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">calculateCapacity</span><span class="hljs-params">(Object[] elementData, <span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+    <span class="hljs-comment">//如果elementData是默认容量空数组，则返回minCapacity和DEFAULT_CAPACITY大的那个</span>
+    <span class="hljs-comment">// 调用无参构造器生成的 elementData是懒加载的，这里才开始初始化容量。</span>
+    <span class="hljs-keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELminCapacityEMENTDATA) &#123;
+        <span class="hljs-keyword">return</span> Math.max(DEFAULT_CAPACITY, minCapacity);
+    &#125;
+    
+    <span class="hljs-comment">// 如果elementData不是默认容量空数组，则返回minCapacity</span>
+    <span class="hljs-keyword">return</span> minCapacity;
+&#125;</code></pre>
+
+<p>在看一下<code>ensureExplicitCapacity()</code>方法：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ensureExplicitCapacity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+    <span class="hljs-comment">//modCount是为了fail-fast策略服务的，防止使用迭代器的过程中修改了ArrayList。 </span>
+    modCount++;    
+
+    <span class="hljs-comment">// overflow-conscious code</span>
+    <span class="hljs-comment">// 如果容量不够，则扩容。</span>
+    
+    <span class="hljs-keyword">if</span> (minCapacity - elementData.length &gt; <span class="hljs-number">0</span>)
+	    <span class="hljs-comment">//扩容函数。</span>
+    	grow(minCapacity);
+&#125;</code></pre>
+
+<p>最后我们来看一下核心 <code>grow()</code>方法：</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Increases the capacity to ensure that it can hold at least the
+ * number of elements specified by the minimum capacity argument.
+ *
+ * <span class="hljs-doctag">@param</span> minCapacity the desired minimum capacity
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+    <span class="hljs-comment">// overflow-conscious code    </span>
+    <span class="hljs-keyword">int</span> oldCapacity = elementData.length;
+    
+    <span class="hljs-comment">// newCapacity 是 1.5倍 的 oldCapacity </span>
+    <span class="hljs-keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="hljs-number">1</span>);
+
+    <span class="hljs-comment">// 1.5倍的 oldCapacity 不够的情况。</span>
+    <span class="hljs-keyword">if</span> (newCapacity - minCapacity &lt; <span class="hljs-number">0</span>)
+        newCapacity = minCapacity;
+
+    <span class="hljs-comment">//如果newCapacity超过了最大的容量限制，就调用hugeCapacity方法，也就是将能给的最大值给newCapacit</span>
+    <span class="hljs-keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="hljs-number">0</span>)
+        newCapacity = hugeCapacity(minCapacity);
+    
+ 	<span class="hljs-comment">//newCapacity已经确定，最后扩容</span>
+    elementData = Arrays.copyOf(elementData, newCapacity);
+&#125;</code></pre>
+
+<p>看一下<code>hugeCapacity()</code>方法：</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hugeCapacity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+    
+    <span class="hljs-keyword">if</span> (minCapacity &lt; <span class="hljs-number">0</span>) <span class="hljs-comment">// overflow， 溢出抛异常</span>
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> OutOfMemoryError();
+    
+	<span class="hljs-comment">// 给一个能给的最大值</span>
+    <span class="hljs-keyword">return</span> (minCapacity &gt; MAX_ARRAY_SIZE) ? Integer.MAX_VALUE :  MAX_ARRAY_SIZE;
+&#125;</code></pre>
+
+<p>也就是说最大也就能给到 Integer.MAX_VALUE。还是超过了这个限制，就要溢出了。相当于arraylist给了两层防护。</p>
+<h3 id="add-int-index-E-element"><a href="#add-int-index-E-element" class="headerlink" title="add(int index, E element)"></a>add(int index, E element)</h3><p>在特定位置添加元素，也就是插入元素。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Inserts the specified element at the specified position in this
+ * list. Shifts the element currently at that position (if any) and
+ * any subsequent elements to the right (adds one to their indices).
+ *
+ * <span class="hljs-doctag">@param</span> index index at which the specified element is to be inserted
+ * <span class="hljs-doctag">@param</span> element element to be inserted
+ * <span class="hljs-doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index, E element)</span> </span>&#123;
+    <span class="hljs-comment">//index的位置是否合理</span>
+    rangeCheckForAdd(index);
+	
+    <span class="hljs-comment">// 确保内部容量足够</span>
+    ensureCapacityInternal(size + <span class="hljs-number">1</span>);  <span class="hljs-comment">// Increments modCount!!</span>
+    
+    <span class="hljs-comment">//将elementData中从index开始的元素都后移一位</span>
+    System.arraycopy(elementData, index, elementData, index + <span class="hljs-number">1</span>, size - index);
+    
+    <span class="hljs-comment">//插入元素</span>
+    elementData[index] = element;
+    
+    <span class="hljs-comment">//ArrayList size + 1</span>
+    size++;
+&#125;</code></pre>
+
+<p>我们来看一下<code>rangeCheckForAdd()</code>方法：</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * A version of rangeCheck used by add and addAll.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">rangeCheckForAdd</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;
+    <span class="hljs-comment">//下标越界 抛出异常。</span>
+    <span class="hljs-keyword">if</span> (index &gt; size || index &lt; <span class="hljs-number">0</span>)
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IndexOutOfBoundsException(outOfBoundsMsg(index));
+&#125;</code></pre>
+
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>调用 add方法的逻辑 </p>
+<p>add —&gt;  ensureCapacityInternal  —&gt;   ensureExplicitCapacity —&gt; grow —&gt;hugeCapacity</p>
+<ol>
+<li><p>ArrayList的默认容量10，但是这是懒加载的，只有第一次调用<code>add()</code>方法才会真正初始化。</p>
+</li>
+<li><p>正常情况下会扩容1.5倍，如果不够，则会扩容到所需的最小容量；如果数组的容量到了Integer.MAX_VALUE，则不会扩容了。</p>
+</li>
+<li><p>如果你使用<code>new ArrayList(0)</code> 来实例ArrayList对象，然后一直调用 add(E e)方法。则该实例的容量会是： 0 -&gt; 1 -&gt; 2 -&gt; 3 -&gt; 4 - &gt; 6 -&gt; 9 …..</p>
+</li>
+</ol>
+<h2 id="remove"><a href="#remove" class="headerlink" title="remove"></a>remove</h2><h3 id="remove-int-index"><a href="#remove-int-index" class="headerlink" title="remove(int index)"></a>remove(int index)</h3><p>删除指定位置上的元素</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Removes the element at the specified position in this list.
+ * Shifts any subsequent elements to the left (subtracts one from their
+ * indices).
+ *
+ * <span class="hljs-doctag">@param</span> index the index of the element to be removed
+ * <span class="hljs-doctag">@return</span> the element that was removed from the list
+ * <span class="hljs-doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">remove</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;
+    <span class="hljs-comment">//检查index是否合理</span>
+    rangeCheck(index);
+    
+	<span class="hljs-comment">//是为了fail-fast策略服务的，防止使用迭代器的过程中修改了ArrayList。 </span>
+    modCount++;
+    
+    <span class="hljs-comment">//找到应该删除的元素</span>
+    E oldValue = elementData(index);
+
+    <span class="hljs-comment">//计算要移动的位数。</span>
+    <span class="hljs-keyword">int</span> numMoved = size - index - <span class="hljs-number">1</span>;
+    
+    <span class="hljs-comment">//移动元素</span>
+    <span class="hljs-keyword">if</span> (numMoved &gt; <span class="hljs-number">0</span>)
+        System.arraycopy(elementData, index+<span class="hljs-number">1</span>, elementData, index,
+                         numMoved);
+    
+    <span class="hljs-comment">//将--size上的位置赋值为null，让gc(垃圾回收机制)更快的回收它。</span>
+    elementData[--size] = <span class="hljs-keyword">null</span>; <span class="hljs-comment">// clear to let GC do its work</span>
+
+    <span class="hljs-comment">//返回删除的元素。</span>
+    <span class="hljs-keyword">return</span> oldValue;
+&#125;</code></pre>
+
+<h3 id="remove-Object-o"><a href="#remove-Object-o" class="headerlink" title="remove(Object o)"></a>remove(Object o)</h3><p>删除指定元素</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">remove</span><span class="hljs-params">(Object o)</span> </span>&#123;
+    <span class="hljs-comment">// 如果指定元素是null</span>
+    <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span>) &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>; index &lt; size; index++)
+            <span class="hljs-comment">//找到null，并且删除</span>
+            <span class="hljs-keyword">if</span> (elementData[index] == <span class="hljs-keyword">null</span>) &#123;
+                fastRemove(index);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            &#125;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>; index &lt; size; index++)
+            <span class="hljs-comment">//找到该元素，并且删除</span>
+            <span class="hljs-keyword">if</span> (o.equals(elementData[index])) &#123;
+                fastRemove(index);
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+&#125;</code></pre>
+
+
+
+<p>我们来看一下 <code>fastRemove()</code>方法：</p>
+<pre><code class="hljs java"><span class="hljs-comment">/*
+ * Private remove method that skips bounds checking and does not
+ * return the value removed.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fastRemove</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;
+    modCount++;
+    
+    <span class="hljs-comment">//找到删除的位置</span>
+    <span class="hljs-keyword">int</span> numMoved = size - index - <span class="hljs-number">1</span>;
+    
+     <span class="hljs-comment">//移动元素</span>
+    <span class="hljs-keyword">if</span> (numMoved &gt; <span class="hljs-number">0</span>)
+        System.arraycopy(elementData, index+<span class="hljs-number">1</span>, elementData, index,
+                         numMoved);
+    
+     <span class="hljs-comment">//将--size上的位置赋值为null，让gc(垃圾回收机制)更快的回收它。</span>
+    elementData[--size] = <span class="hljs-keyword">null</span>; <span class="hljs-comment">// clear to let GC do its work</span>
+&#125;</code></pre>
+
+<h3 id="clear"><a href="#clear" class="headerlink" title="clear()"></a>clear()</h3><p>将list中的所有元素都删除</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Removes all of the elements from this list.  The list will
+ * be empty after this call returns.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span> </span>&#123;
+    modCount++;
+
+    <span class="hljs-comment">// clear to let GC do its work</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++)
+        elementData[i] = <span class="hljs-keyword">null</span>;
+
+    size = <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h3 id="removeAll"><a href="#removeAll" class="headerlink" title="removeAll()"></a>removeAll()</h3><p>删除列表中所有存在指定collection中的元素</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Removes from this list all of its elements that are contained in the
+ * specified collection.
+ *
+ * <span class="hljs-doctag">@param</span> c collection containing elements to be removed from this list
+ * <span class="hljs-doctag">@return</span> &#123;<span class="hljs-doctag">@code</span> true&#125; if this list changed as a result of the call
+ * <span class="hljs-doctag">@throws</span> ClassCastException if the class of an element of this list
+ *         is incompatible with the specified collection
+ * <span class="hljs-doctag">@throws</span> NullPointerException if this list contains a null element and the
+ *         specified collection does not permit null elements
+ *         or if the specified collection is null
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">removeAll</span><span class="hljs-params">(Collection&lt;?&gt; c)</span> </span>&#123;
+    <span class="hljs-comment">// c不为null</span>
+    Objects.requireNonNull(c);
+    
+    <span class="hljs-keyword">return</span> batchRemove(c, <span class="hljs-keyword">false</span>);
+&#125;</code></pre>
+
+<p>我们来看一下<code>bachRemove()</code>方法:</p>
+<pre><code class="hljs java">
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">batchRemove</span><span class="hljs-params">(Collection&lt;?&gt; c, <span class="hljs-keyword">boolean</span> complement)</span> </span>&#123;
+    <span class="hljs-comment">// 将原集合，记名elementData    emmm，不是很理解这种操作！</span>
+    <span class="hljs-keyword">final</span> Object[] elementData = <span class="hljs-keyword">this</span>.elementData;
+    
+    <span class="hljs-comment">// r是用来控制循环，w是保留下来的元素数量</span>
+    <span class="hljs-keyword">int</span> r = <span class="hljs-number">0</span>, w = <span class="hljs-number">0</span>;
+    
+    <span class="hljs-comment">//elementData是否修改</span>
+    <span class="hljs-keyword">boolean</span> modified = <span class="hljs-keyword">false</span>;
+    
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-comment">// 当complement为ture,  则留下在c中存在的元素	--&gt; 保留相同元素</span>
+        <span class="hljs-comment">// 当complement为false, 则留下在c中不存在的元素  --&gt; 删除相同元素      </span>
+        <span class="hljs-keyword">for</span> (; r &lt; size; r++)            
+            <span class="hljs-keyword">if</span> (c.contains(elementData[r]) == complement)
+                elementData[w++] = elementData[r];	
+        
+    &#125; <span class="hljs-keyword">finally</span> &#123;	
+        <span class="hljs-comment">// Preserve behavioral compatibility with AbstractCollection,</span>
+        <span class="hljs-comment">// even if c.contains() throws.</span>
+        <span class="hljs-comment">// 如果 c.contains()抛出异常，将剩下的元素都拷贝进去。</span>
+        <span class="hljs-keyword">if</span> (r != size) &#123;
+            System.arraycopy(elementData, r, elementData, w, size - r);
+            w += size - r;
+        &#125;
+        
+        <span class="hljs-comment">//将需要保留元素外的位置 置null</span>
+        <span class="hljs-keyword">if</span> (w != size) &#123;
+            <span class="hljs-comment">// clear to let GC do its work</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = w; i &lt; size; i++)
+                elementData[i] = <span class="hljs-keyword">null</span>;
+            
+            modCount += size - w;
+            size = w;
+            modified = <span class="hljs-keyword">true</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> modified;
+&#125;</code></pre>
+
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>remove函数用户移除指定下标的元素，此时会把指定下标到数组末尾的元素向前移动一个单位，并且会把数组最后一个元素设置为null　这样是为了方便之后将整个数组不被使用时，会被GC，可以作为小的技巧使用。</p>
+<h2 id="set"><a href="#set" class="headerlink" title="set"></a>set</h2><h3 id="set-int-index-E-element"><a href="#set-int-index-E-element" class="headerlink" title="set(int index, E element)"></a>set(int index, E element)</h3><p>替换指定位置的元素。</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Replaces the element at the specified position in this list with
+ * the specified element.
+ *
+ * <span class="hljs-doctag">@param</span> index index of the element to replace
+ * <span class="hljs-doctag">@param</span> element element to be stored at the specified position
+ * <span class="hljs-doctag">@return</span> the element previously at the specified position
+ * <span class="hljs-doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">set</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index, E element)</span> </span>&#123;
+    <span class="hljs-comment">// 检查index是否合理</span>
+    rangeCheck(index);
+	<span class="hljs-comment">// 保持旧元素</span>
+    E oldValue = elementData(index);
+    <span class="hljs-comment">// 替换新元素</span>
+    elementData[index] = element;
+    <span class="hljs-comment">// 返回旧元素</span>
+    <span class="hljs-keyword">return</span> oldValue;
+&#125;</code></pre>
+
+
+
+<h2 id="get"><a href="#get" class="headerlink" title="get"></a>get</h2><h3 id="get-int-index"><a href="#get-int-index" class="headerlink" title="get(int index)"></a>get(int index)</h3><p>获取指定位置的元素</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Returns the element at the specified position in this list.
+ *
+ * <span class="hljs-doctag">@param</span>  index index of the element to return
+ * <span class="hljs-doctag">@return</span> the element at the specified position in this list
+ * <span class="hljs-doctag">@throws</span> IndexOutOfBoundsException &#123;<span class="hljs-doctag">@inheritDoc</span>&#125;
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">get</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;
+    rangeCheck(index);
+
+    <span class="hljs-keyword">return</span> elementData(index);
+&#125;</code></pre>
+
+<pre><code class="hljs java"><span class="hljs-comment">// Positional Access Operations</span>
+<span class="hljs-function">E <span class="hljs-title">elementData</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> (E) elementData[index];
+&#125;</code></pre>
+
+
+
+<h2 id="indexOf"><a href="#indexOf" class="headerlink" title="indexOf"></a>indexOf</h2><h3 id="indexOf-Object-o"><a href="#indexOf-Object-o" class="headerlink" title="indexOf(Object o)"></a>indexOf(Object o)</h3><p>返回指定元素第一个出现的index</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Returns the index of the first occurrence of the specified element
+ * in this list, or -1 if this list does not contain the element.
+ * More formally, returns the lowest index &lt;tt&gt;i&lt;/tt&gt; such that
+ * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;,
+ * or -1 if there is no such index.
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">indexOf</span><span class="hljs-params">(Object o)</span> </span>&#123;
+    <span class="hljs-comment">//如果要查找null</span>
+    <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span>) &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++)
+            <span class="hljs-keyword">if</span> (elementData[i]==<span class="hljs-keyword">null</span>)
+                <span class="hljs-keyword">return</span> i;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++)
+            <span class="hljs-keyword">if</span> (o.equals(elementData[i]))
+                <span class="hljs-keyword">return</span> i;
+    &#125;
+    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+&#125;</code></pre>
+
+
+
+<h2 id="iterator"><a href="#iterator" class="headerlink" title="iterator"></a>iterator</h2><h3 id="iterator-1"><a href="#iterator-1" class="headerlink" title="iterator()"></a>iterator()</h3><p>返回了一个Iterator对象</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * Returns an iterator over the elements in this list in proper sequence.
+ *
+ * &lt;p&gt;The returned iterator is &lt;a href="#fail-fast"&gt;&lt;i&gt;fail-fast&lt;/i&gt;&lt;/a&gt;.
+ *
+ * <span class="hljs-doctag">@return</span> an iterator over the e	lements in this list in proper sequence
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> Iterator&lt;E&gt; <span class="hljs-title">iterator</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Itr();
+&#125;</code></pre>
+
+<p>我们来看一下<code>Itr</code>类：</p>
+<p><code>Itr</code>实现了<code>Iterator</code>,只能访问下一个元素，和删除元素</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * An optimized version of AbstractList.Itr
+ */</span>
+<span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Itr</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Iterator</span>&lt;<span class="hljs-title">E</span>&gt; </span>&#123;
+    <span class="hljs-comment">// 游标，下一个被返回的元素的下标</span>
+    <span class="hljs-keyword">int</span> cursor;       <span class="hljs-comment">// index of next element to return</span>
+	
+    <span class="hljs-comment">// 最近一次返回的元素的下标，-1表示最近一次操作没有返回元素</span>
+    <span class="hljs-keyword">int</span> lastRet = -<span class="hljs-number">1</span>; <span class="hljs-comment">// index of last element returned; -1 if no such</span>
+    
+    <span class="hljs-comment">// 为防止在使用Iterator遍历时 修改list，采用的fail-fast机制</span>
+    <span class="hljs-keyword">int</span> expectedModCount = modCount;
+
+    Itr() &#123;&#125;
+
+    <span class="hljs-comment">// 判断是否有 下一个</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">hasNext</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> cursor != size;
+    &#125;
+	<span class="hljs-comment">//获取下一个元素</span>
+    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">next</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">//快速失败机制</span>
+        checkForComodification();	
+        
+        <span class="hljs-comment">// 下一个被返回的元素的下标</span>
+        <span class="hljs-keyword">int</span> i = cursor;     
+        
+        <span class="hljs-comment">// 不能超过集合大小</span>
+        <span class="hljs-keyword">if</span> (i &gt;= size)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchElementException();
+        
+        Object[] elementData = ArrayList.<span class="hljs-keyword">this</span>.elementData;
+        
+        <span class="hljs-comment">// 不能超过容器长度</span>
+        <span class="hljs-keyword">if</span> (i &gt;= elementData.length)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+        
+        <span class="hljs-comment">//跟新 cursor</span>
+        cursor = i + <span class="hljs-number">1</span>;        
+        
+        <span class="hljs-comment">//跟新 lastRet，并且返回元素</span>
+        <span class="hljs-keyword">return</span> (E) elementData[lastRet = i];
+    &#125;
+
+    <span class="hljs-comment">// 删除最近访问的元素</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">remove</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 最近一次操作必须是返回元素</span>
+        <span class="hljs-keyword">if</span> (lastRet &lt; <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(); 
+        
+        <span class="hljs-comment">//快速失败机制</span>
+        checkForComodification();
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 删除最近一次访问的元素</span>
+            ArrayList.<span class="hljs-keyword">this</span>.remove(lastRet);
+            <span class="hljs-comment">// 跟新cursor</span>
+            cursor = lastRet;
+            <span class="hljs-comment">// 跟新lastRet，最近一次操作没有访问元素，是删除元素</span>
+            lastRet = -<span class="hljs-number">1</span>;            
+            <span class="hljs-comment">// 修改期望值</span>
+            expectedModCount = modCount;
+        &#125; <span class="hljs-keyword">catch</span> (IndexOutOfBoundsException ex) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">// 剩下的每一个元素都去执行 consumer.accept()</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">forEachRemaining</span><span class="hljs-params">(Consumer&lt;? <span class="hljs-keyword">super</span> E&gt; consumer)</span> </span>&#123;     
+        Objects.requireNonNull(consumer);
+        
+        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> size = ArrayList.<span class="hljs-keyword">this</span>.size;
+        <span class="hljs-keyword">int</span> i = cursor;
+        
+        <span class="hljs-comment">// 不能超过集合大小</span>
+        <span class="hljs-keyword">if</span> (i &gt;= size) &#123; <span class="hljs-keyword">return</span>; &#125;
+        
+        <span class="hljs-keyword">final</span> Object[] elementData = ArrayList.<span class="hljs-keyword">this</span>.elementData;
+        
+        <span class="hljs-comment">// 不能超过容器大小</span>
+        <span class="hljs-keyword">if</span> (i &gt;= elementData.length) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+        &#125;
+        
+        <span class="hljs-comment">// 执行 consumer.accept方法</span>
+        <span class="hljs-keyword">while</span> (i != size &amp;&amp; modCount == expectedModCount) &#123;
+            consumer.accept((E) elementData[i++]);
+        &#125;
+        
+        <span class="hljs-comment">// update once at end of iteration to reduce heap write traffic</span>
+        <span class="hljs-comment">// 为了减少写入流量在迭代结束时跟新</span>
+        cursor = i;
+        lastRet = i - <span class="hljs-number">1</span>;
+
+        <span class="hljs-comment">//快速失败机制</span>
+        checkForComodification();
+    &#125;
+	
+    <span class="hljs-comment">//保证遍历时不能修改list</span>
+    <span class="hljs-function"><span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkForComodification</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">//快速失败机制，如果 modCount 和 expectedModCount不一致则抛出异常</span>
+        <span class="hljs-comment">//说明遍历的时候有修改list</span>
+        <span class="hljs-keyword">if</span> (modCount != expectedModCount)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+    &#125;
+&#125;</code></pre>
+
+<h3 id="listIterator（）"><a href="#listIterator（）" class="headerlink" title="listIterator（）"></a>listIterator（）</h3><p>返回一个ListIterator对象</p>
+<pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> ListIterator&lt;E&gt; <span class="hljs-title">listIterator</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ListItr(<span class="hljs-number">0</span>);
+&#125;</code></pre>
+
+<p>我们开看一下 <code>ListItr</code>：</p>
+<p><code>ListItr</code>继承了<code>Itr</code> 实现了 <code>ListIterator</code>,不仅可以访问下一个元素，删除元素，还能访问前一个元素，增加元素</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+ * An optimized version of AbstractList.ListItr
+ */</span>
+<span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListItr</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Itr</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ListIterator</span>&lt;<span class="hljs-title">E</span>&gt; </span>&#123;
+    
+    <span class="hljs-comment">// 可以指定访问元素的位置</span>
+    ListItr(<span class="hljs-keyword">int</span> index) &#123;
+        <span class="hljs-keyword">super</span>();
+        cursor = index;
+    &#125;
+	<span class="hljs-comment">// 是否有前一个元素</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">hasPrevious</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> cursor != <span class="hljs-number">0</span>;
+    &#125;
+	<span class="hljs-comment">//下一个元素位置</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">nextIndex</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> cursor;
+    &#125;
+	<span class="hljs-comment">//前一个元素位置</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">previousIndex</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> cursor - <span class="hljs-number">1</span>;
+    &#125;
+
+    <span class="hljs-comment">//获取前一个元素</span>
+    <span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> E <span class="hljs-title">previous</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 快速失败机制</span>
+        checkForComodification();
+        
+        <span class="hljs-comment">//前一个元素位置</span>
+        <span class="hljs-keyword">int</span> i = cursor - <span class="hljs-number">1</span>;
+        
+        <span class="hljs-comment">//不能去到负坐标</span>
+        <span class="hljs-keyword">if</span> (i &lt; <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NoSuchElementException();
+        Object[] elementData = ArrayList.<span class="hljs-keyword">this</span>.elementData;
+        
+        <span class="hljs-comment">//不能超过容器大小</span>
+        <span class="hljs-keyword">if</span> (i &gt;= elementData.length)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+
+        <span class="hljs-comment">//跟新cursor</span>
+        cursor = i;
+
+        <span class="hljs-comment">//跟新lastRet，并返回前一个元素</span>
+        <span class="hljs-keyword">return</span> (E) elementData[lastRet = i];
+    &#125;
+
+    <span class="hljs-comment">//将最近访问的元素设置为指定值</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(E e)</span> </span>&#123;
+        <span class="hljs-comment">//有最近访问的元素</span>
+        <span class="hljs-keyword">if</span> (lastRet &lt; <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException();
+
+        <span class="hljs-comment">//快速失败机制</span>
+        checkForComodification();
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">//调用set方法</span>
+            ArrayList.<span class="hljs-keyword">this</span>.set(lastRet, e);
+        &#125; <span class="hljs-keyword">catch</span> (IndexOutOfBoundsException ex) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">//在下一个元素之前，插入指定元素</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(E e)</span> </span>&#123;
+        <span class="hljs-comment">//快速失败机制</span>
+        checkForComodification();
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">//下一个元素位置	</span>
+            <span class="hljs-keyword">int</span> i = cursor;
+            
+            <span class="hljs-comment">//插入元素</span>
+            ArrayList.<span class="hljs-keyword">this</span>.add(i, e);            
+           
+            <span class="hljs-comment">//跟新cursor</span>
+            cursor = i + <span class="hljs-number">1</span>;
+            
+            <span class="hljs-comment">//跟新lastRet，最近一次没有访问元素</span>
+            lastRet = -<span class="hljs-number">1</span>;
+            <span class="hljs-comment">//</span>
+            expectedModCount = modCount;
+        &#125; <span class="hljs-keyword">catch</span> (IndexOutOfBoundsException ejavax) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+        &#125;
+    &#125;
+&#125;</code></pre>
+
+<h3 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h3><p><code>iterator()</code>返回的<code>Itr</code>实例只能访问下一个元素，删除元素；注意，在删除元素之前，必须要执行一次访问元素</p>
+<p><code>listIterator()</code>返回的<code>ListItr</code>实例可以访问上/ 下一个元素，删除/添加/修改元素。可以添加任意个元素，但是在删除元素之前，必须执行一次访问元素。</p>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><h3 id="sort-Comparator-lt-super-E-gt-c"><a href="#sort-Comparator-lt-super-E-gt-c" class="headerlink" title="sort(Comparator&lt;? super E&gt; c)"></a>sort(Comparator&lt;? super E&gt; c)</h3><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sort</span><span class="hljs-params">(Comparator&lt;? <span class="hljs-keyword">super</span> E&gt; c)</span> </span>&#123;
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> expectedModCount = modCount;
+    
+    <span class="hljs-comment">//调用的是Arrays.sort(T[] a, int fromIndex, int toIndex, Comparator&lt;? super T&gt; c)     </span>
+    Arrays.sort((E[]) elementData, <span class="hljs-number">0</span>, size, c);
+    
+    <span class="hljs-keyword">if</span> (modCount != expectedModCount) &#123;
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ConcurrentModificationException();
+    &#125;
+    modCount++;
+&#125;</code></pre>
+
+<h3 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h3><p>底层调用的是Arrays.sort方法，对elementData数组直接排序。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">源码解读</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ArrayList/">ArrayList</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/04/%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB-AbstractList/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">源码解读-AbstractList</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/03/%E9%9A%8F%E7%AC%94/">
+                        <span class="hidden-mobile">随笔</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 2,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "源码解读-ArrayList&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

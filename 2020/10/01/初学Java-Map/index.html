@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="libing">
   <meta name="keywords" content="">
-  <title>初学java-JDBC - 阿兵</title>
+  <title>初学Java-Map - 阿兵</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -161,8 +161,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-01-17 12:27" pubdate>
-        2020年1月17日 中午
+      <time datetime="2020-10-01 15:32" pubdate>
+        2020年10月1日 下午
       </time>
     </span>
   
@@ -173,7 +173,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      920 字
     </span>
   
 
@@ -183,7 +183,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16
+      14
        分钟
     </span>
   
@@ -221,58 +221,155 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">初学java-JDBC</h1>
+            <h1 style="display: none">初学Java-Map</h1>
             
             <div class="markdown-body" id="post-body">
-              <p>初学java-JDBC所做小结</p>
-<a id="more"></a>
-<h3 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h3><p>　* JDBC（Java Data Base Connectivity,java数据库连接）是一种用于执行SQL语句的Java API，可以为多种关系数据库提供统一访问，它由一组用Java语言编写的类和接口组成。是Java访问数据库的标准规范<br>　* JDBC提供了一种基准,据此可以构建更高级的工具和接口，使数据库开发人员能够编写数据库应用程序。<br>　* DBC需要连接驱动，驱动是两个设备要进行通信，满足一定通信数据格式，数据格式由设备提供商规定，设备提供商为设备提供驱动软件，通过软件可以与该设备进行通信。<br>　* Java提供访问数据库规范称为JDBC，而生产厂商提供规范的实现类称为驱动。JDBC是接口，驱动是接口的实现类，没有驱动将无法完成数据库连接，从而不能操作数据库！每个数据库厂商都需要提供自己的驱动，用来连接自己公司的数据库，也就是说驱动一般都由数据库生成厂商提供。</p>
-<h3 id="开发步骤"><a href="#开发步骤" class="headerlink" title="开发步骤"></a>开发步骤</h3><p>　1. 初始化驱动.<br>　　　告知JVM使用的是哪一个数据库的驱动<br>　2. 建立连接.<br>     使用JDBC中的类，完成对MySQL数据库的连接<br>　3. 获得语句执行平台,执行sql语句<br>　　　通过连接对象获取对SQL语句的执行者对象,使用执行者对象，向数据库执行SQL语句  获取到数据库的执行后的结果<br>　4. 处理结果<br>　5. 释放资源.</p>
-<h4 id="初始化驱动"><a href="#初始化驱动" class="headerlink" title="初始化驱动"></a>初始化驱动</h4><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;
-        Class.forName(<span class="hljs-string">"com.mysql.jdbc.Driver"</span>);		
-        &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException e) &#123; 				
-            e.printStackTrace();
-        &#125;
+              <h1 id="一、Map概述"><a href="#一、Map概述" class="headerlink" title="一、Map概述"></a>一、Map概述</h1><p>Map是一种把键对象和值对象进行关联的容器。一个值对象又可以是一个Map，以此类推，这样就可以形成一个多级映射。Map容器中的键对象不允许为重复，具有唯一性。值对象则没有唯一性要求。</p>
+<h1 id="二、通用方法"><a href="#二、通用方法" class="headerlink" title="二、通用方法"></a>二、通用方法</h1><p>下面的方法是所有实现Map接口的实现类都需要实现的方法。</p>
+<p><strong>新增方法</strong></p>
+<blockquote>
+<p>V put(K key, V value))</p>
+</blockquote>
+<p>添加key，value到 容器中</p>
+<pre><code class="hljs java">
+</code></pre>
+
+<blockquote>
+<p>void putAll(Map&lt;? extends K, ? extends V&gt; m)</p>
+</blockquote>
+<p>将一个map容器中的所有元素都添加进来</p>
+<p><strong>查看方法</strong></p>
+<blockquote>
+<p>Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()</p>
+</blockquote>
+<p>返回map容器到一个Set集合中，以map集合中的Key=Value的形式返回到set中。</p>
+<blockquote>
+<p>Set<K> keySet()  </p>
+</blockquote>
+<p>返回map容器的所有key到一个Set集合中。</p>
+<blockquote>
+<p>Collection<V> values();</p>
+</blockquote>
+<p>返回map容器的所有value到一个集合中。</p>
+<blockquote>
+<p>V get(Object key)</p>
+</blockquote>
+<p>根据map集合中元素的Key来获取相应元素的Value</p>
+<blockquote>
+<p>boolean containsKey(Object key)</p>
+</blockquote>
+<p>判断map容器中是否包含key</p>
+<blockquote>
+<p>boolean containsValue(Object value)</p>
+</blockquote>
+<p>判断map容器中是否包含value</p>
+<blockquote>
+<p>boolean isEmpty()</p>
+</blockquote>
+<p>判断map容器是否为空</p>
+<blockquote>
+<p>int size()</p>
+</blockquote>
+<p><strong>删除方法</strong></p>
+<blockquote>
+<p> V remove(Object key)</p>
+</blockquote>
+<blockquote>
+<p> void clear()</p>
+</blockquote>
+<h1 id="实现类"><a href="#实现类" class="headerlink" title="实现类"></a>实现类</h1><h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p>HashMap的底层是 <strong>数组 + 链表 / 红黑树</strong></p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+* The table, initialized on first use, and resized as
+* necessary. When allocated, length is always a power of two.
+* (We also tolerate length zero in some operations to allow
+* bootstrapping mechanics that are currently not needed.)
+*/</span>
+<span class="hljs-keyword">transient</span> Node&lt;K,V&gt;[] table;</code></pre>
+<p>这是数组</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+* Basic hash bin node, used for most entries.  (See below for
+* TreeNode subclass, and in LinkedHashMap for its Entry subclass.)
+*/</span>
+<span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">Map</span>.<span class="hljs-title">Entry</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; </span>&#123;
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> hash;
+    <span class="hljs-keyword">final</span> K key;
+    V value;
+    Node&lt;K,V&gt; next;
 &#125;</code></pre>
-<p>初始化驱动类com.mysql.jdbc.Driver，该类就在 mysql-connector-java-5.0.8-bin.jar中。如果你使用的是oracle数据库那么该驱动类将不同。<br>Class.forName是把这个类加载到JVM中，加载的时候，就会执行其中的静态初始化块，完成驱动的初始化的相关工作。</p>
-<h4 id="建立连接"><a href="#建立连接" class="headerlink" title="建立连接"></a>建立连接</h4><pre><code class="hljs java">Connection conn = DriverManager.getConnection(<span class="hljs-string">"jdbc:mysql://localhost:3306/demo"</span>, <span class="hljs-string">"root"</span>, <span class="hljs-string">"1234"</span>);</code></pre>
-<p>1.这里连接的是本地数据库 localhost<br>2.Mysql数据库的端口号：3306<br>3.数据库表名 demo（填自己的数据库表名）<br>4.账号  （填写自己的账号）<br>5.密码  （填写自己的密码）</p>
-<p>Connection是与特定数据库连接回话的接口，使用的时候需要导包，而且必须在程序结束的时候将其关闭。getConnection方法也需要捕获SQLException异常。</p>
-<h4 id="创建Statement或者PreparedStatement接口-执行语句"><a href="#创建Statement或者PreparedStatement接口-执行语句" class="headerlink" title="创建Statement或者PreparedStatement接口,执行语句"></a>创建Statement或者PreparedStatement接口,执行语句</h4><ul>
-<li><p>Statement接口：</p>
-<pre><code class="hljs java">Statement s = conn.createStatement();
-<span class="hljs-comment">// 准备sql语句</span>
-<span class="hljs-comment">// 注意： 字符串要用单引号'</span>
-String name = <span class="hljs-string">"二狗"</span>;
-String sql = <span class="hljs-string">"insert into user(id,uname) values ("</span>+<span class="hljs-number">1</span>+<span class="hljs-string">",'"</span>+name+<span class="hljs-string">"')"</span>;
-<span class="hljs-comment">//在statement中使用字符串拼接的方式，这种方式存在诸多问题</span>
-s.execute(sql);
-System.out.println(<span class="hljs-string">"执行插入语句成功"</span>);</code></pre>
-<p>Statement接口创建之后，可以执行SQL语句，完成对数据库的增删改查。其中 ，增删改只需要改变SQL语句的内容就能完成，然而查询略显复杂。<br>字符串拼接方式的SQL语句是非常繁琐的，中间有很多的单引号和双引号的混用，极易出错</p>
-</li>
-<li><p>PreparedStatemet接口：</p>
-<pre><code class="hljs java">String sql = <span class="hljs-string">"insert into user (id,uname,pwd,regTime) 	values (?,?,66666,?)"</span>;
- <span class="hljs-comment">//该语句为每个 IN 参数保留一个问号（“？”）作为占位符</span>
-PreparedStatement ps = coon.preparedStatemtent(sql);
-ps.setObject(<span class="hljs-number">1</span>, <span class="hljs-string">"123"</span>); <span class="hljs-comment">//给占位符赋值</span>
-ps.setObject(<span class="hljs-number">2</span>, <span class="hljs-string">"麻子"</span>); <span class="hljs-comment">//给占位符赋值</span>
-ps.setObject(<span class="hljs-number">3</span>, <span class="hljs-keyword">new</span> java.sql.Date(System.currentTimeMillis()));  <span class="hljs-comment">//给占位符赋值</span>
-ps.execute(); <span class="hljs-comment">//执行</span></code></pre>
-<p>使用PreparedStatement时，他的SQL语句不再采用字符串拼接的方式，而是采用占位符的方式。“？”在这里就起到占位符的作用。这种方式除了避免了statement拼接字符串的繁琐之外，还能够提高性能。每次SQL语句都是一样的，java类就不会再次编译，这样能够显著提高性能。</p>
-</li>
-</ul>
-<p><strong>Statement和PreparedStatement的异同及优缺点</strong><br>同：两者都是用来执SQL语句的<br>异：PreparedStatement需要根据SQL语句来创建，它能够通过设置参数，指定相应的值，不是像Statement那样使用字符串拼接的方式。</p>
-<p><strong>PreparedStatement的优点：</strong><br>1、其使用参数设置，可读性好，不易记错。在statement中使用字符串拼接，可读性和维护性比较差。<br>2、其具有预编译机制，性能比statement更快。<br>3、其能够有效防止SQL注入攻击。</p>
-<h4 id="处理结果"><a href="#处理结果" class="headerlink" title="处理结果"></a>处理结果</h4><pre><code class="hljs java">String sql = <span class="hljs-string">"select id,uname,pwd from user where id&gt;?"</span>;
-PrepareStatement ps = conn.prepareStatement(sql);
-ps.setObject(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>); <span class="hljs-comment">//把id大于2的记录都取出来</span>
-ResultSet rs = ps.executeQuery();
-<span class="hljs-keyword">while</span>(rs.next()) &#123;
-	System.out.println(rs.getInt(<span class="hljs-string">"id"</span>)+<span class="hljs-string">"--"</span>+rs.getString(<span class="hljs-string">"uname"</span>));
+<p>这是链表</p>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+* Entry for Tree bins. Extends LinkedHashMap.Entry (which in turn
+* extends Node) so can be used as extension of either regular or
+* linked node.
+*/</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">LinkedHashMap</span>.<span class="hljs-title">Entry</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; </span>&#123;
+    TreeNode&lt;K,V&gt; parent;  <span class="hljs-comment">// red-black tree links</span>
+    TreeNode&lt;K,V&gt; left;
+    TreeNode&lt;K,V&gt; right;
+    TreeNode&lt;K,V&gt; prev;    <span class="hljs-comment">// needed to unlink next upon deletion</span>
+    <span class="hljs-keyword">boolean</span> red;
 &#125;</code></pre>
-<p>利用While(ResultSet.next()){…}循环将集合ResultSet中的结果遍历出来。</p>
-<p>ResultSet.getXX();     这里的get方法的括号里面可以填属性值，如下图代码中的course_id,还可以填该属性在数据表中的列号，从1开始编码，例如：course_id在我的t-courses数据表中位于第一列，所以执行get方法的时候，我除了代码段中写法外，还可以这样写int courseId = rs.getInt(1);但是不推荐使用列号的这种方式，因为一段数据表中个属性值得顺序发生变化，就会导致这里出错，而使用属性名则不会出现这样的问题。</p>
-<h4 id="释放资源"><a href="#释放资源" class="headerlink" title="释放资源"></a>释放资源</h4><p>在JDBC编码的过程中我们创建了Connection、ResultSet等资源，这些资源在使用完毕之后是一定要进行关闭的。关闭的过程中遵循从里到外的原则。</p>
+
+<p>这是红黑树</p>
+<hr>
+<p>当数组元素不超过64或链表内节点不超过8时，是 <strong>数组 + 链表</strong>，否则 <strong>链表</strong> 会升级成 <strong>红黑树</strong></p>
+<p>适用于在Map中插入、删除和定位元素。但是遍历键是无序的(如果出现有序的情况，那是你数据量太小了)。</p>
+<pre><code class="hljs java">Map&lt;Integer,Integer&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+
+System.out.print(<span class="hljs-string">"添加："</span>);
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;
+    <span class="hljs-keyword">int</span> key =(<span class="hljs-keyword">int</span>) (Math.random() * <span class="hljs-number">100</span>);
+    <span class="hljs-keyword">if</span>(!map.containsKey(key))&#123;
+        map.put(key,key);
+        System.out.print(key + <span class="hljs-string">"="</span> + key + <span class="hljs-string">" "</span>);
+    &#125;
+&#125;
+
+System.out.println();
+System.out.print(<span class="hljs-string">"查看："</span>);
+map.entrySet().forEach(a-&gt;&#123;System.out.print(a + <span class="hljs-string">" "</span>);&#125;);</code></pre>
+
+<p>输出结果：</p>
+<pre><code class="hljs angelscript">添加：<span class="hljs-number">46</span>=<span class="hljs-number">46</span> <span class="hljs-number">38</span>=<span class="hljs-number">38</span> <span class="hljs-number">98</span>=<span class="hljs-number">98</span> <span class="hljs-number">57</span>=<span class="hljs-number">57</span> <span class="hljs-number">30</span>=<span class="hljs-number">30</span> <span class="hljs-number">13</span>=<span class="hljs-number">13</span> <span class="hljs-number">40</span>=<span class="hljs-number">40</span> <span class="hljs-number">3</span>=<span class="hljs-number">3</span> <span class="hljs-number">6</span>=<span class="hljs-number">6</span> <span class="hljs-number">62</span>=<span class="hljs-number">62</span> 
+查看：<span class="hljs-number">98</span>=<span class="hljs-number">98</span> <span class="hljs-number">3</span>=<span class="hljs-number">3</span> <span class="hljs-number">38</span>=<span class="hljs-number">38</span> <span class="hljs-number">6</span>=<span class="hljs-number">6</span> <span class="hljs-number">40</span>=<span class="hljs-number">40</span> <span class="hljs-number">57</span>=<span class="hljs-number">57</span> <span class="hljs-number">13</span>=<span class="hljs-number">13</span> <span class="hljs-number">46</span>=<span class="hljs-number">46</span> <span class="hljs-number">30</span>=<span class="hljs-number">30</span> <span class="hljs-number">62</span>=<span class="hljs-number">62</span></code></pre>
+
+
+<h2 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h2><p>TreeMap的底层是<strong>红黑树</strong></p>
+<pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> Entry&lt;K,V&gt; root;</code></pre>
+<pre><code class="hljs java"><span class="hljs-comment">/**
+    * Node in the Tree.  Doubles as a means to pass key-value pairs back to
+    * user (see Map.Entry).
+    */</span>
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entry</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">Map</span>.<span class="hljs-title">Entry</span>&lt;<span class="hljs-title">K</span>,<span class="hljs-title">V</span>&gt; </span>&#123;
+    K key;
+    V value;
+    Entry&lt;K,V&gt; left;
+    Entry&lt;K,V&gt; right;
+    Entry&lt;K,V&gt; parent;
+    <span class="hljs-keyword">boolean</span> color = BLACK;
+&#125;</code></pre>
+<p>TreeMap的底层是红黑树所有性能稍逊HashMap，但是它的遍历是有序的，是以key值排序参照。适用于按自然顺序或自定义顺序遍历键(key)</p>
+<pre><code class="hljs java">Map&lt;Integer,Integer&gt; map = <span class="hljs-keyword">new</span> TreeMap&lt;&gt;();
+Random random = <span class="hljs-keyword">new</span> Random();
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;
+    <span class="hljs-keyword">int</span> key = random.nextInt(<span class="hljs-number">100</span>);
+    <span class="hljs-keyword">int</span> value = random.nextInt(<span class="hljs-number">100</span>);
+    map.put(key,value);
+&#125;
+
+System.out.print(<span class="hljs-string">"key  ："</span>);
+map.keySet().forEach(a-&gt;&#123;System.out.printf(<span class="hljs-string">"%3d"</span>,a);&#125;);
+
+System.out.print(<span class="hljs-string">"\nvalue："</span>);
+map.values().forEach(a-&gt;&#123;System.out.printf(<span class="hljs-string">"%3d"</span>,a);&#125;);</code></pre>
+
+<p>输出结果</p>
+<pre><code class="hljs angelscript">key  ：  <span class="hljs-number">9</span> <span class="hljs-number">25</span> <span class="hljs-number">27</span> <span class="hljs-number">37</span> <span class="hljs-number">44</span> <span class="hljs-number">54</span> <span class="hljs-number">61</span> <span class="hljs-number">79</span> <span class="hljs-number">91</span> <span class="hljs-number">93</span>   <span class="hljs-comment">//以key为yi排序</span>
+value： <span class="hljs-number">26</span> <span class="hljs-number">82</span> <span class="hljs-number">23</span> <span class="hljs-number">62</span> <span class="hljs-number">94</span>  <span class="hljs-number">3</span>  <span class="hljs-number">2</span> <span class="hljs-number">16</span> <span class="hljs-number">10</span> <span class="hljs-number">75</span></code></pre>
+
+<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>LinkedHashMap是HashMap的子类。</p>
 
             </div>
             <hr>
@@ -292,7 +389,7 @@ ResultSet rs = ps.executeQuery();
                     
                       <a class="hover-with-bg" href="/tags/Java/">Java</a>
                     
-                      <a class="hover-with-bg" href="/tags/JDBC/">JDBC</a>
+                      <a class="hover-with-bg" href="/tags/Map/">Map</a>
                     
                   </div>
                 
@@ -305,9 +402,9 @@ ResultSet rs = ps.executeQuery();
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2020/09/28/%E5%88%9D%E5%AD%A6Java-Arrays/">
+                      <a href="/2020/10/03/%E9%9A%8F%E7%AC%94/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">初学Java-Arrays</span>
+                        <span class="hidden-mobile">随笔</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -315,8 +412,8 @@ ResultSet rs = ps.executeQuery();
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/01/16/GOF32-%E5%88%9B%E5%BB%BA%E8%80%85%E6%A8%A1%E5%BC%8F/">
-                        <span class="hidden-mobile">GOF32</span>
+                      <a href="/2020/09/28/%E5%88%9D%E5%AD%A6Java-Arrays/">
+                        <span class="hidden-mobile">初学Java-Arrays</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -485,7 +582,7 @@ ResultSet rs = ps.executeQuery();
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "初学java-JDBC&nbsp;",
+        "初学Java-Map&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

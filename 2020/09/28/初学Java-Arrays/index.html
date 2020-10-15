@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="libing">
+  <meta name="keywords" content="">
+  <title>初学Java-Arrays - 阿兵</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+</head>
+
+
+<body>
+  <header style="height: 40vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>阿兵</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:" target="_blank" rel="noopener">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/banner2.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-09-28 19:51" pubdate>
+        2020年9月28日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">初学Java-Arrays</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p>Arrays类位于 java.util 包中，是一个工具类，不能实例化，主要包含了操纵数组的各种方法(搜索、排序、复制、比较).</p>
+<h2 id="二、常用方法"><a href="#二、常用方法" class="headerlink" title="二、常用方法"></a>二、常用方法</h2><h3 id="1-排序"><a href="#1-排序" class="headerlink" title="1.排序"></a>1.排序</h3><p>sort方法可以对数组进行排序，并且提供多种重载形式，用于满足各种类型数组的排序需要</p>
+<h4 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><blockquote>
+<p>sort(int[] a) </p>
+</blockquote>
+<p>对<strong>基本数据类型数组</strong>的所有元素进行升序排序。</p>
+<pre><code class="hljs java"><span class="hljs-keyword">int</span> a[] = &#123;<span class="hljs-number">9</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">13</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>&#125;;
+Arrays.sort(a);
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[3, 5, 6, 8, 9, 13]</span></code></pre>
+
+<hr>
+<blockquote>
+<p>sort(int[] a, int formIndex, int toIndex)</p>
+</blockquote>
+<p>对<strong>基本数据类型数组[formIndex, toIndex)范围内</strong>的元素进行升序排序</p>
+<pre><code class="hljs java"><span class="hljs-keyword">int</span> a[] = &#123;<span class="hljs-number">9</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">13</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>&#125;;
+Arrays.sort(a, <span class="hljs-number">1</span> , <span class="hljs-number">5</span>);
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[9, 3, 5, 6, 13, 8]</span></code></pre>
+
+<h4 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h4><blockquote>
+<p>sort(Object[] a)</p>
+</blockquote>
+<p>对<strong>引用类型数组</strong>的元素进行排序，要求数组元素都实现了<strong>Comparable接口</strong></p>
+<pre><code class="hljs java">Integer a[] = &#123;<span class="hljs-number">9</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">13</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>&#125;;
+
+<span class="hljs-comment">//Integer实现了Comparable接口</span>
+Arrays.sort(a);
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[3, 5, 6, 8, 9, 13]</span></code></pre>
+
+<hr>
+<blockquote>
+<p>sort(Object[] a, int formIndex, int toIndex)</p>
+</blockquote>
+<p>对<strong>引用类型数组[formIndex, toIndex)范围内</strong>的元素进行排序，要求数组元素实现了<strong>Comparable接口</strong></p>
+<pre><code class="hljs java">Integer a[] = &#123;<span class="hljs-number">9</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">13</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>&#125;;
+<span class="hljs-comment">//Integer实现了Comparable接口</span>
+
+Arrays.sort(a, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>);
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[9, 3, 5, 6, 13, 8]</span></code></pre>
+<hr>
+<blockquote>
+<p>sort(T[] a, Comparator&lt;? super T&gt; c)</p>
+</blockquote>
+<p>对<strong>引用类型数组</strong>的元素进行排序，需要实现一个<strong>Comparator接口</strong> (定义排序条件)</p>
+<pre><code class="hljs java">Integer a[] = &#123;<span class="hljs-number">9</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">13</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>&#125;;
+rrays.sort(a, (o1, o2) -&gt; &#123;<span class="hljs-keyword">return</span> o2.compareTo(o1);&#125; ); 
+<span class="hljs-comment">//可以用lambad表达式 简化代码，这里是降序排序</span>
+
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[13, 9, 8, 6, 5, 3]</span></code></pre>
+<hr>
+<blockquote>
+<p>void sort(T[] a, int fromIndex, int toIndex, Comparator&lt;? super T&gt; c)</p>
+</blockquote>
+<p>对<strong>引用类型数组[formIndex, toIndex)范围内</strong>的元素进行排序，需要实现一个<strong>Comparator接口</strong> (定义排序条件)</p>
+<pre><code class="hljs java">Integer a[] = &#123;<span class="hljs-number">9</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">13</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>&#125;;
+Arrays.sort(a, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, (o1, o2) -&gt; &#123;<span class="hljs-keyword">return</span> o2.compareTo(o1);&#125;);
+<span class="hljs-comment">//可以用lambad表达式 简化代码，这里是降序排序</span>
+
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[9, 13, 6, 5, 3, 8]</span></code></pre>
+
+<h3 id="2-搜索"><a href="#2-搜索" class="headerlink" title="2.搜索"></a>2.搜索</h3><p>binarySearch方法用来搜索指定的数组，以获得指定对象，提供多种重载形式，用于满足各种类型数组的查找需要。搜索之前，<strong>需要对数组使用sort方法进行排序。</strong></p>
+<h4 id="基本数据类型-1"><a href="#基本数据类型-1" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><blockquote>
+<p>int binarySearch(int[] a, int key) </p>
+</blockquote>
+<p>在<strong>基本数据类型数组</strong>中搜索key，返回</p>
+<ol>
+<li>存在key，则返回任意一个key值的下标</li>
+<li>不存在key, 则返回 [-(插入点) - 1] 读作 [负插入点减一] (插入点：将key插入到合适位置的下标)</li>
+</ol>
+<pre><code class="hljs java"><span class="hljs-keyword">int</span> a[] = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>&#125;;
+<span class="hljs-keyword">int</span> bs10 = Arrays.binarySearch(a, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">int</span> bs6 = Arrays.binarySearch(a, <span class="hljs-number">6</span>);
+<span class="hljs-keyword">int</span> bs5 = Arrays.binarySearch(a, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">int</span> bs0 = Arrays.binarySearch(a, <span class="hljs-number">0</span>);
+
+System.out.println(<span class="hljs-string">"binarySearch: 10 = "</span> + bs10);
+<span class="hljs-comment">// binarySearch: 10 = -8  10应该插入到 7，-7 - 1 = -8</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 6 = "</span> + bs6);
+<span class="hljs-comment">//binarySearch: 6 = -6    6应该插入到 5， -5 - 1 = -6</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 5 = "</span> + bs5);
+<span class="hljs-comment">//binarySearch: 5 = 3   </span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 0 = "</span> + bs0);
+<span class="hljs-comment">//binarySearch: 0 = -1    0应该插入到 0， -0 - 1 = -1</span></code></pre>
+<hr>
+<blockquote>
+<p>int binarySearch(int[] a, int fromIndex, int toIndex, int key) </p>
+</blockquote>
+<p>在<strong>基本数据类型数组[formIndex, toIndex)范围内</strong>搜索key，返回</p>
+<ol>
+<li>存在key，则返回任意一个key值的下标</li>
+<li>不存在key, 则返回 [-(插入点) - 1] 读作 [负插入点减一] (插入点：将key插入到合适位置的下标)</li>
+</ol>
+<p>注意：我们只在 <strong>[formIndex, toIndex)</strong> 中搜索，所有的插入点只能在 <strong>[formIndex, toIndex]</strong>中</p>
+<pre><code class="hljs java"><span class="hljs-keyword">int</span> a[] = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>&#125;;
+<span class="hljs-keyword">int</span> bs10 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">int</span> bs6 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>);
+<span class="hljs-keyword">int</span> bs5 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">int</span> bs0 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>, <span class="hljs-number">0</span>);
+
+System.out.println(<span class="hljs-string">"binarySearch: 10 = "</span> + bs10);
+<span class="hljs-comment">// binarySearch: 10 = -6 只能将10插入到 5， -5 - 1 = -6</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 6 = "</span> + bs6);
+<span class="hljs-comment">// binarySearch: 6 = -6  只能将6 插入到 5， -5 - 1 = -6</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 5 = "</span> + bs5);
+<span class="hljs-comment">// binarySearch: 5 = 3</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 0 = "</span> + bs0)
+<span class="hljs-comment">// binarySearch: 0 = -2 只能将0 插入到 1， -1 - 1 = -2</span></code></pre>
+
+<h4 id="引用类型-1"><a href="#引用类型-1" class="headerlink" title="引用类型"></a>引用类型</h4><blockquote>
+<p>int binarySearch(Object[] a, Object key) </p>
+</blockquote>
+<p>在<strong>引用类型数组</strong>里搜索key，要求数组元素实现Comparable接口，返回值参照<code>int binarySearch(int[] a, int key)</code> 方法</p>
+<pre><code class="hljs java">Integer a[] = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>&#125;;
+<span class="hljs-comment">//Integer自己实现了Comparable接口</span>
+
+<span class="hljs-keyword">int</span> bs10 = Arrays.binarySearch(a, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">int</span> bs6 = Arrays.binarySearch(a, <span class="hljs-number">6</span>);
+<span class="hljs-keyword">int</span> bs5 = Arrays.binarySearch(a, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">int</span> bs0 = Arrays.binarySearch(a, <span class="hljs-number">0</span>);
+
+System.out.println(<span class="hljs-string">"binarySearch: 10 = "</span> + bs10);
+<span class="hljs-comment">// binarySearch: 10 = -8  10应该插入到 7，-7 - 1 = -8</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 6 = "</span> + bs6);
+<span class="hljs-comment">//binarySearch: 6 = -6    6应该插入到 5， -5 - 1 = -6</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 5 = "</span> + bs5);
+<span class="hljs-comment">//binarySearch: 5 = 3   </span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 0 = "</span> + bs0);
+<span class="hljs-comment">//binarySearch: 0 = -1    0应该插入到 0， -0 - 1 = -1</span></code></pre>
+<hr>
+<blockquote>
+<p>int binarySearch(Object[] a, int fromIndex, int toIndex, Object key) </p>
+</blockquote>
+<p>在<strong>引用类型数组[formIndex, toIndex)范围内</strong>搜索key，要求数组元素实现Comparable接口，返回值参照<code>int binarySearch(int[] a, int fromIndex, int toIndex, int key)</code>方法</p>
+<pre><code class="hljs java">Integer a[] = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">5</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>&#125;;
+<span class="hljs-comment">//Integer自己实现了Comparable接口</span>
+
+<span class="hljs-keyword">int</span> bs10 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">int</span> bs6 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>);
+<span class="hljs-keyword">int</span> bs5 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">int</span> bs0 = Arrays.binarySearch(a,<span class="hljs-number">1</span>,<span class="hljs-number">5</span>, <span class="hljs-number">0</span>);
+
+System.out.println(<span class="hljs-string">"binarySearch: 10 = "</span> + bs10);
+<span class="hljs-comment">// binarySearch: 10 = -6 只能将10插入到 5， -5 - 1 = -6</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 6 = "</span> + bs6);
+<span class="hljs-comment">// binarySearch: 6 = -6  只能将6 插入到 5， -5 - 1 = -6</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 5 = "</span> + bs5);
+<span class="hljs-comment">// binarySearch: 5 = 3</span>
+
+System.out.println(<span class="hljs-string">"binarySearch: 0 = "</span> + bs0)
+<span class="hljs-comment">// binarySearch: 0 = -2 只能将0 插入到 1， -1 - 1 = -2</span></code></pre>
+
+<h3 id="3-填充"><a href="#3-填充" class="headerlink" title="3.填充"></a>3.填充</h3><p>fill方法是填充数组，提供多种重载形式，用于满足各种类型数组的填充需要。</p>
+<h4 id="基本数据类型-2"><a href="#基本数据类型-2" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><blockquote>
+<p> void fill(int[] a, int val)</p>
+</blockquote>
+<p>在<strong>基本数据类型数组</strong>中填充指定值val。</p>
+<pre><code class="hljs java"><span class="hljs-keyword">int</span> a[] = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">6</span>];
+Arrays.fill(a,<span class="hljs-number">3</span>);
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[3, 3, 3, 3, 3, 3]</span></code></pre>
+
+<hr>
+<blockquote>
+<p> void fill(int[] a, int fromIndex, int toIndex, int val)</p>
+</blockquote>
+<p>在<strong>基本数据类型数组[formIndex, toIndex)范围内</strong>中填充指定值val。</p>
+<pre><code class="hljs java"><span class="hljs-keyword">int</span> a[] = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">6</span>];
+Arrays.fill(a, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>);
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[0, 0, 3, 3, 3, 0]</span></code></pre>
+
+<h4 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h4><blockquote>
+<p> void fill(Object[] a, Object val)</p>
+</blockquote>
+<p>在<strong>引用类型数组</strong>中填充指定对象val。</p>
+<pre><code class="hljs java">Integer a[] = <span class="hljs-keyword">new</span> Integer[<span class="hljs-number">6</span>];
+Arrays.fill(a, <span class="hljs-keyword">new</span> Integer(<span class="hljs-number">3</span>));
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[3, 3, 3, 3, 3, 3]</span></code></pre>
+
+<hr>
+<blockquote>
+<p> void fill(Object[] a, int fromIndex, int toIndex, Object val)</p>
+</blockquote>
+<pre><code class="hljs java">在**引用类型数组[formIndex, toIndex)范围内**中填充指定对象val。```java
+Integer a[] = <span class="hljs-keyword">new</span> Integer[<span class="hljs-number">6</span>];
+Arrays.fill(a, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-keyword">new</span> Integer(<span class="hljs-number">3</span>));
+System.out.println(Arrays.toString(a));
+<span class="hljs-comment">//[0, 0, 3, 3, 3, 0]</span></code></pre>
+
+<h3 id="4-复制"><a href="#4-复制" class="headerlink" title="4.复制"></a>4.复制</h3><p>copyOf方法和copyOfRange方法可以拷贝一个数组副本，提供多种重载形式，用于满足各种类型数组的复制需要。</p>
+<h4 id="基本数据类型-3"><a href="#基本数据类型-3" class="headerlink" title="基本数据类型"></a>基本数据类型</h4><blockquote>
+<p>int[] copyOf(int[] original, int newLength)<br>返回一个长度为newLength的数组，</p>
+</blockquote>
+<p>如果newLeng大于源数组的长度，多余的元素为0值;</p>
+<p>如果newLeng小于源数组的长度，只拷贝源数组前面一部分的元素。</p>
+<h4 id="引用类型-2"><a href="#引用类型-2" class="headerlink" title="引用类型"></a>引用类型</h4><blockquote>
+<p><T> T[] copyOf(T[] original, int newLength)</p>
+</blockquote>
+<p>返回一个和源数组同一类型，长度为newLength的数组</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%88%9D%E5%AD%A6Java/">初学Java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Java/">Java</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/01/%E5%88%9D%E5%AD%A6Java-Map/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">初学Java-Map</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/17/%E5%88%9D%E5%AD%A6java-JDBC/">
+                        <span class="hidden-mobile">初学java-JDBC</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 2,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "初学Java-Arrays&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
